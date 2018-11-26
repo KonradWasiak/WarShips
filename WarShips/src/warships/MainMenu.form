@@ -101,6 +101,9 @@
           <Dimension value="[80, 50]"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="startGameButtonMouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="showRulesButton">
       <Properties>
@@ -115,6 +118,9 @@
           <Dimension value="[80, 50]"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="showRulesButtonMouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="exitButton">
       <Properties>
@@ -129,11 +135,17 @@
           <Dimension value="[80, 50]"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="exitButtonMouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="showAboutButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="O GRZE"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="showAboutButtonMouseClicked"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

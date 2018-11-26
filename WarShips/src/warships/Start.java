@@ -10,8 +10,8 @@ public class Start {
         mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainWindow.setMinimumSize(new Dimension(1100,650));
         mainWindow.setVisible(true);
-        mainWindow.setResizable(true);
-        mainWindow.setContentPane(new MainMenu());
+        mainWindow.setResizable(false);
+        mainWindow.setContentPane(new MainMenu());     
         
     }
     
