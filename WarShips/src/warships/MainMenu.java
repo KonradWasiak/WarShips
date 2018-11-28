@@ -5,7 +5,7 @@
  */
 package warships;
 
-import java.awt.Dimension;
+import java.awt.*;
 import javax.swing.*;
 
 /**
@@ -118,13 +118,10 @@ public class MainMenu extends javax.swing.JPanel {
 
     private void startGameButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_startGameButtonMouseClicked
         
-        evt.getComponent().getParent().getParent().getParent().getParent().setVisible(false);
-        JFrame mainWindow = new JFrame();
-        mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainWindow.setMinimumSize(new Dimension(1100,650));
-        mainWindow.setVisible(true);
-        mainWindow.setResizable(false);
-        mainWindow.setContentPane(new clientOrServer());
+        JFrame window = (JFrame) evt.getComponent().getParent().getParent().getParent().getParent();
+        window.setContentPane(new clientOrServer());
+        window.invalidate();
+        window.revalidate();
     }//GEN-LAST:event_startGameButtonMouseClicked
 
     private void exitButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitButtonMouseClicked
