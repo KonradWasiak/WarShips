@@ -5,10 +5,25 @@
  */
 package game;
 
+import java.util.*;
+
 /**
  *
  * @author wolsk
  */
-public class ship extends shipPart {
+public class ship {
+    
+    List <shipPart> czesciStatku;
+    
+    
+    public ship(shipPart ... shipParts) {
+        czesciStatku = new ArrayList<>();
+        for (int i = 0;i < shipParts.length ; i++){
+            czesciStatku.add(shipParts[i]);
+        }
+    }
+    public void remove(){
+        czesciStatku.remove(this);
+    }
     
 }
