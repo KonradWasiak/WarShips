@@ -48,7 +48,6 @@ public class shipPart extends JButton {
 
     public void selectedToFight() {
         this.selected = true;
-        this.setEnabled(false);
         this.setBackground(Color.green);
     }
 
