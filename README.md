@@ -9,5 +9,4 @@ Done:
 ✔️ Ustawianie statków na polu bitwy, tak aby statki nie "stały na sobie" ani obok siebie
 ✔️ Klasa ship przechowująca referencje do poszczególnych części statków
 ❌ Wysyłanie przez sieć danych 
-❌ Plansza z właściwą grą
-❌ Klasa opponentGameBoard
+✔️ Plansza z właściwą grą
