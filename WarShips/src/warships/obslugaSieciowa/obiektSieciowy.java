@@ -5,6 +5,8 @@
  */
 package warships.obslugaSieciowa;
 
+import java.net.Socket;
+
 /**
  *
  * @author wolsk
@@ -13,6 +15,8 @@ public abstract class obiektSieciowy {
     
     
     
-   abstract void Send(String s);
-   abstract String Receive();
+   public abstract void Send(String s);
+   public abstract String Receive();
+   public abstract void ready();
+   public abstract Socket getSocket();
 }

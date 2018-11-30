@@ -4,9 +4,13 @@
  * and open the template in the editor.
  */
 package warships;
+
+import com.sun.xml.internal.ws.api.message.Message;
 import java.awt.Dimension;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import warships.obslugaSieciowa.client;
+
 /**
  *
  * @author wolsk
@@ -19,7 +23,6 @@ public class clientPanel extends javax.swing.JPanel {
     public clientPanel() {
         initComponents();
     }
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -106,14 +109,17 @@ public class clientPanel extends javax.swing.JPanel {
             String ip = jTextField1.getText();
             int port = Integer.parseInt(jTextField2.getText());
             client c = new client(ip, port);
-            
-            JFrame window = (JFrame) evt.getComponent().getParent().getParent().getParent().getParent();
-            window.setContentPane(new setShipsOnField(c));
-            window.invalidate();
-            window.revalidate();
-            
-        } catch (Exception e){
-            System.out.print(e.toString());
+            if (c.socket.isConnected()) {
+                JFrame window = (JFrame) evt.getComponent().getParent().getParent().getParent().getParent();
+                window.setContentPane(new setShipsOnField(c));
+                window.invalidate();
+                window.revalidate();
+            } else {
+                JOptionPane.showConfirmDialog(evt.getComponent().getParent().getParent(), "Nie nawiazano polaczenia");
+                System.out.println();
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,"Nie nawiazano polaczenia \n" +e.toString(), "Alert",JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_jButton1MouseClicked
 

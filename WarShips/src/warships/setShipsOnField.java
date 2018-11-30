@@ -5,11 +5,14 @@
  */
 package warships;
 
+import game.battleField;
 import game.ship;
 import game.shipPart;
 import java.awt.Color;
+import static java.awt.SystemColor.window;
 import java.awt.event.MouseEvent;
 import java.io.Console;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
@@ -33,9 +36,11 @@ public class setShipsOnField extends javax.swing.JPanel implements MouseInputLis
     ship[] statki = new ship[12];
     shipPart[] ostatni;
     boolean horOrver = true;
-
+    obiektSieciowy socket;
+    
     public setShipsOnField(obiektSieciowy o) {
         initComponents();
+        socket = o;
         wyborStatku.add(jRadioButton1);
         wyborStatku.add(jRadioButton2);
         wyborStatku.add(jRadioButton3);
@@ -132,6 +137,11 @@ public class setShipsOnField extends javax.swing.JPanel implements MouseInputLis
 
         jButton1.setFont(new java.awt.Font("MingLiU-ExtB", 1, 24)); // NOI18N
         jButton1.setText("Gotowy");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
 
         jButton2.setText("Cofnij");
         jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -274,6 +284,17 @@ public class setShipsOnField extends javax.swing.JPanel implements MouseInputLis
         temp.setEnabled(false);
         shipCounter--;
     }//GEN-LAST:event_jButton2MouseClicked
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        if (shipCounter == 10){ // Tutaj trzeba dodac zeby sprawdzalo czy przeciwnik gotowy
+        JFrame window = (JFrame) evt.getComponent().getParent().getParent().getParent().getParent().getParent();
+        window.setContentPane(new battleField(poleBitwy));
+        window.invalidate();
+        window.revalidate();
+        } else {
+            JOptionPane.showMessageDialog(null,"Alert", "Nie dodano wszystkich statków",JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton1MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
