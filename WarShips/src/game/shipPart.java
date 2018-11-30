@@ -69,4 +69,10 @@ public class shipPart extends JButton {
         this.selected = false;
     }
 
+    public void enableField() {
+       this.setEnabled(true);
+       this.selected = false;
+       this.setBackground(null);
+    }
+
 }
