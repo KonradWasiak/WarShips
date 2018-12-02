@@ -5,6 +5,7 @@
  */
 package warships.obslugaSieciowa;
 
+import game.shipPart;
 import java.net.Socket;
 
 /**
@@ -12,11 +13,18 @@ import java.net.Socket;
  * @author wolsk
  */
 public abstract class obiektSieciowy {
-    
-    
-    
-   public abstract void Send(String s);
-   public abstract String Receive();
-   public abstract void ready();
-   public abstract Socket getSocket();
+
+    public static boolean czySerwer;
+
+    public abstract void Send(String s);
+
+//    public abstract void SendOwnBattlefield(shipPart[] battlefield);
+//
+//    public abstract shipPart[] ReceiveEnemyBattlefield();
+
+    public abstract String Receive();
+
+    public abstract void ready();
+
+    public abstract Socket getSocket();
 }

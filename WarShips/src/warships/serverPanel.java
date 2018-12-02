@@ -4,9 +4,11 @@
  * and open the template in the editor.
  */
 package warships;
+
 import java.awt.Dimension;
 import javax.swing.JFrame;
 import warships.obslugaSieciowa.server;
+
 /**
  *
  * @author wolsk
@@ -16,10 +18,11 @@ public class serverPanel extends javax.swing.JPanel {
     /**
      * Creates new form clientPanel
      */
+    public server s;
+
     public serverPanel() {
         initComponents();
     }
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -95,13 +98,13 @@ public class serverPanel extends javax.swing.JPanel {
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         try {
             int port = Integer.parseInt(jTextField1.getText().toString());
-            server s = new server(port);
-            
+            s = new server(port);
+
             JFrame window = (JFrame) evt.getComponent().getParent().getParent().getParent().getParent();
             window.setContentPane(new setShipsOnField(s));
             window.invalidate();
             window.revalidate();
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.toString());
         }
     }//GEN-LAST:event_jButton1MouseClicked

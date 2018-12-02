@@ -20,6 +20,7 @@ public class clientPanel extends javax.swing.JPanel {
     /**
      * Creates new form serverPanel
      */
+    public client c;
     public clientPanel() {
         initComponents();
     }
@@ -108,7 +109,7 @@ public class clientPanel extends javax.swing.JPanel {
         try {
             String ip = jTextField1.getText();
             int port = Integer.parseInt(jTextField2.getText());
-            client c = new client(ip, port);
+            c = new client(ip, port);
             if (c.socket.isConnected()) {
                 JFrame window = (JFrame) evt.getComponent().getParent().getParent().getParent().getParent();
                 window.setContentPane(new setShipsOnField(c));

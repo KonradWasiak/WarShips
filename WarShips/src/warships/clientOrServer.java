@@ -7,6 +7,7 @@ package warships;
 
 import java.awt.Dimension;
 import javax.swing.JFrame;
+import warships.obslugaSieciowa.obiektSieciowy;
 
 /**
  *
@@ -105,6 +106,7 @@ public class clientOrServer extends javax.swing.JPanel {
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         JFrame window = (JFrame) evt.getComponent().getParent().getParent().getParent().getParent();
         window.setContentPane(new clientPanel());
+        obiektSieciowy.czySerwer = false;
         window.invalidate();
         window.revalidate();
     }//GEN-LAST:event_jButton1MouseClicked
@@ -112,6 +114,7 @@ public class clientOrServer extends javax.swing.JPanel {
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         JFrame window = (JFrame) evt.getComponent().getParent().getParent().getParent().getParent();
         window.setContentPane(new serverPanel());
+        obiektSieciowy.czySerwer = true;
         window.invalidate();
         window.revalidate();
     }//GEN-LAST:event_jButton2MouseClicked

@@ -293,7 +293,7 @@ public class setShipsOnField extends javax.swing.JPanel implements MouseInputLis
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         if (shipCounter == 10){ // Tutaj trzeba dodac zeby sprawdzalo czy przeciwnik gotowy
         JFrame window = (JFrame) evt.getComponent().getParent().getParent().getParent().getParent().getParent();
-        window.setContentPane(new battleField(poleBitwy));
+        window.setContentPane(new battleField(poleBitwy, socket));
         window.invalidate();
         window.revalidate();
         } else {

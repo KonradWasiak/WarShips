@@ -8,19 +8,41 @@ package game;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import javax.swing.JFrame;
 import warships.MainMenu;
+import warships.clientPanel;
+import warships.obslugaSieciowa.obiektSieciowy;
+import warships.serverPanel;
+import warships.clientOrServer;
+import java.net.Socket;
+import java.net.ServerSocket;
+import static javax.swing.JOptionPane.showMessageDialog;
+import warships.Start;
 
 /**
  *
  * @author wolsk
  */
-public class battleField extends javax.swing.JPanel implements MouseListener {
+public class battleField extends javax.swing.JPanel implements MouseListener, Runnable {
 
     shipPart[] planszaGracza = new shipPart[144];
     shipPart[] planszaPrzeciwnika = new shipPart[144];
+    int czesciStatkuLicznik = 20;
+    boolean mojRuch;
+    Thread t1;
+    Thread t2;
+    String ruchPrzeciwnika = "";
+    obiektSieciowy obj;
 
-    public battleField(shipPart[] pB) {
+    public battleField(shipPart[] pB, obiektSieciowy obiektSieciowyParam) {
+        if (obiektSieciowy.czySerwer) {
+            mojRuch = true;
+        } else {
+            mojRuch = false;
+        }
+
         initComponents();
         planszaGracza = pB;
         int y = 0;
@@ -56,6 +78,11 @@ public class battleField extends javax.swing.JPanel implements MouseListener {
         for (int i = 0; i < pB.length; i++) {
             System.out.println(pB[i].toString());
         }
+
+        this.obj = obiektSieciowyParam;
+        t1 = new Thread(this);
+        t1.start();
+
     }
 
     @SuppressWarnings("unchecked")
@@ -527,15 +554,30 @@ public class battleField extends javax.swing.JPanel implements MouseListener {
         shipPart temp = (shipPart) e.getComponent();
         //Tutaj po kliknieciu wyslac wiadomosc do przeciwnika
         //I jesli trafiony to
-        if (!temp.isEnabled()) {
-            temp.dostalemSzczala();
+
+        int xToSend = temp.getXPolozenie() + 1;
+        int yToSend = temp.getYPolozenie() + 1;
+        String X = Integer.toString(xToSend);
+        String Y = Integer.toString(yToSend);
+
+        if (mojRuch) {
+            obj.Send(X + Y);
         }
-        //Jesli nie 
-        if (temp.isEnabled()) {
-            temp.puste();
-        }
+
+        disableAllFields();
+        this.mojRuch = false;
+        ruchPrzeciwnika = "";
+
+//        if (!temp.isEnabled()) {
+//            temp.setDestroyed();
+//        }
+//        //Jesli nie 
+//        if (temp.isEnabled()) {
+//            temp.setMissed();
+//        }
         //I po kazdym kliknieciu
-        temp.setEnabled(false);
+//        temp.setEnabled(false);
+//        planszaGracza[(temp.getXPolozenie() + temp.getYPolozenie() * 10)].setEnabled(false);
         //i jeszcze trzeba odbierac od drugieo gracza info czy koniec juz, i wtedy message box jakis i przenosic do menu
         if (false) {
             JFrame window = (JFrame) e.getComponent().getParent().getParent().getParent().getParent().getParent();
@@ -555,13 +597,97 @@ public class battleField extends javax.swing.JPanel implements MouseListener {
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        shipPart temp = (shipPart) e.getComponent();
-        temp.focused();
+        shipPart p = (shipPart) e.getComponent();
+        if (p.destroyed) {
+            p.setBackground(Color.red);
+        } else if (p.miss) {
+            p.setBackground(Color.black);
+        }
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        shipPart temp = (shipPart) e.getComponent();
-        temp.unfocused();
+        shipPart p = (shipPart) e.getComponent();
+        if (p.destroyed) {
+            p.setBackground(Color.red);
+        } else if (p.miss) {
+            p.setBackground(Color.black);
+        }
+    }
+
+    public void disableAllFields() {
+        for (shipPart p : planszaPrzeciwnika) {
+            p.setEnabled(false);
+            if (p.destroyed) {
+                p.setBackground(Color.red);
+            } else if (p.miss) {
+                p.setBackground(Color.black);
+            }
+        }
+    }
+
+    public void enableAllFields() {
+        for (shipPart p : planszaPrzeciwnika) {
+            p.setEnabled(true);
+            if (p.destroyed) {
+                p.setBackground(Color.red);
+                p.setEnabled(false);
+            } else if (p.miss) {
+                p.setBackground(Color.black);
+                p.setEnabled(false);
+
+            }
+        }
+    }
+
+    @Override
+    public void run() {
+        while (true) {
+            ruchPrzeciwnika = obj.Receive();
+            System.out.println(ruchPrzeciwnika);
+            if ((!ruchPrzeciwnika.equals("")) && (!ruchPrzeciwnika.contains("TRAFIONY")) && (!ruchPrzeciwnika.contains("PUDLO"))) {
+                mojRuch = true;
+                int ruchPrzeciwnikaX = Integer.parseInt(ruchPrzeciwnika.substring(0, 1));
+                int ruchPrzeciwnikaY = Integer.parseInt(ruchPrzeciwnika.substring(1));
+                if (planszaGracza[ruchPrzeciwnikaX + ruchPrzeciwnikaY * 12].selected) {
+                    planszaGracza[ruchPrzeciwnikaX + ruchPrzeciwnikaY * 12].setDestroyed();
+                    planszaGracza[ruchPrzeciwnikaX + ruchPrzeciwnikaY * 12].setText("X");
+                    czesciStatkuLicznik--;
+                    obj.Send("TRAFIONY" + ruchPrzeciwnika);
+                } else {
+                    planszaGracza[ruchPrzeciwnikaX + ruchPrzeciwnikaY * 12].setMissed();
+                    obj.Send("PUDLO" + ruchPrzeciwnika);
+                }
+                enableAllFields();
+            } else if (ruchPrzeciwnika.contains("TRAFIONY")) {
+                int ruchPrzeciwnikaX = Integer.parseInt(ruchPrzeciwnika.substring(8, 9));
+                int ruchPrzeciwnikaY = Integer.parseInt(ruchPrzeciwnika.substring(9));
+                ruchPrzeciwnikaX--;
+                ruchPrzeciwnikaY--;
+                planszaPrzeciwnika[ruchPrzeciwnikaX + ruchPrzeciwnikaY * 12].setDestroyed();
+            } else if (ruchPrzeciwnika.contains("PUDLO")) {
+                int ruchPrzeciwnikaX = Integer.parseInt(ruchPrzeciwnika.substring(5, 6));
+                int ruchPrzeciwnikaY = Integer.parseInt(ruchPrzeciwnika.substring(6));
+                ruchPrzeciwnikaX--;
+                ruchPrzeciwnikaY--;
+                planszaPrzeciwnika[ruchPrzeciwnikaX + ruchPrzeciwnikaY * 12].setMissed();
+            } else if (ruchPrzeciwnika.contains("WYGRALES")) {
+                disableAllFields();
+                for (shipPart p : planszaGracza) {
+                    p.disableField();
+                }
+                showMessageDialog(null, "WYGRAŁEŚ!");
+            }
+            if (czesciStatkuLicznik == 0) {
+                obj.Send("WYGRALES");
+                disableAllFields();
+                for (shipPart p : planszaGracza) {
+                    p.disableField();
+                }
+                showMessageDialog(null, "PRZEGRALEŚ!");
+
+                // PRZEJSCIE DO WYBORU STATKOW ALBO WYJSCIE Z GRY
+            }
+        }
     }
 }
