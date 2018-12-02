@@ -5,10 +5,14 @@
  */
 package warships;
 
+import game.battleField;
 import game.ship;
 import game.shipPart;
 import java.awt.Color;
+import static java.awt.SystemColor.window;
 import java.awt.event.MouseEvent;
+import java.io.Console;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
@@ -30,15 +34,19 @@ public class setShipsOnField extends javax.swing.JPanel implements MouseInputLis
     ButtonGroup wyborStatku = new ButtonGroup();
     shipPart[] poleBitwy = new shipPart[144];
     ship[] statki = new ship[12];
+    shipPart[] ostatni;
     boolean horOrver = true;
-
+    obiektSieciowy socket;
+    
     public setShipsOnField(obiektSieciowy o) {
         initComponents();
+        socket = o;
         wyborStatku.add(jRadioButton1);
         wyborStatku.add(jRadioButton2);
         wyborStatku.add(jRadioButton3);
         wyborStatku.add(jRadioButton4);
         jRadioButton1.setSelected(true);
+        jButton2.setEnabled(false);
         jComboBox1.removeAllItems();
         jComboBox1.addItem("Pionowo");
         jComboBox1.addItem("Poziomo");
@@ -49,7 +57,6 @@ public class setShipsOnField extends javax.swing.JPanel implements MouseInputLis
                 y++;
                 x = i - y * 12;
             }
-            System.out.print("Dodaje: x = " + x + " y= " + y);
             poleBitwy[i] = new shipPart(x, y);
             poleBitwy[i].setBounds(500 + x * 50, 12 + y * 50, 50, 50);
             poleBitwy[i].setEnabled(true);
@@ -130,8 +137,18 @@ public class setShipsOnField extends javax.swing.JPanel implements MouseInputLis
 
         jButton1.setFont(new java.awt.Font("MingLiU-ExtB", 1, 24)); // NOI18N
         jButton1.setText("Gotowy");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
 
-        jButton2.setText("Usuń");
+        jButton2.setText("Cofnij");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
 
         jButton3.setText("Resetuj");
         jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -222,6 +239,7 @@ public class setShipsOnField extends javax.swing.JPanel implements MouseInputLis
         for (int i = 0; i < poleBitwy.length; i++) {
             poleBitwy[i].reset();
         }
+        shipCounter = 0;
         counter1 = 4;
         counter2 = 3;
         counter3 = 2;
@@ -238,12 +256,50 @@ public class setShipsOnField extends javax.swing.JPanel implements MouseInputLis
         String pos = (String) evt.getItem();
         if (pos.equals("Pionowo")) {
             horOrver = true;
-            System.out.println(horOrver);
         } else {
             horOrver = false;
-            System.out.println(horOrver);
         }
     }//GEN-LAST:event_jComboBox1ItemStateChanged
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        System.out.println("Przed usunieciem: " + shipCounter);
+        for (shipPart p : ostatni) {
+            odblokujPole(p.getXPolozenie(), p.getYPolozenie());
+        }
+        for (int i =0;i<poleBitwy.length;i++){
+            if (poleBitwy[i].getBackground() == Color.green){
+                zablokujSasiedniePola(poleBitwy[i].getXPolozenie(), poleBitwy[i].getYPolozenie());
+            }
+        }
+        if (ostatni.length == 1) {
+            counter1++;
+            jLabel1.setText("Pozostało : " + Integer.toString(counter1));
+        } else if (ostatni.length == 2) {
+            counter2++;
+            jLabel2.setText("Pozostało : " + Integer.toString(counter2));
+        } else if (ostatni.length == 3) {
+            counter3++;
+            jLabel3.setText("Pozostało : " + Integer.toString(counter3));
+        } else if (ostatni.length == 4) {
+            counter4++;
+            jLabel4.setText("Pozostało : " + Integer.toString(counter4));
+        }
+        ostatni =null;
+        JButton temp = (JButton) evt.getComponent();
+        temp.setEnabled(false);
+        shipCounter--;
+    }//GEN-LAST:event_jButton2MouseClicked
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        if (shipCounter == 10){ // Tutaj trzeba dodac zeby sprawdzalo czy przeciwnik gotowy
+        JFrame window = (JFrame) evt.getComponent().getParent().getParent().getParent().getParent().getParent();
+        window.setContentPane(new battleField(poleBitwy));
+        window.invalidate();
+        window.revalidate();
+        } else {
+            JOptionPane.showMessageDialog(null,"Alert", "Nie dodano wszystkich statków",JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton1MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -268,205 +324,282 @@ public class setShipsOnField extends javax.swing.JPanel implements MouseInputLis
         int tempX = temp.getXPolozenie();
         int tempY = temp.getYPolozenie();
 
-        if (!horOrver) {
-            if (counter1 > 0 && jRadioButton1.isSelected() && temp.isEnabled()) {
-
-                counter1--;
-                jLabel1.setText("Pozostało : " + Integer.toString(counter1));
-
-                temp.selectedToFight();
-                System.out.println(counter1);
-
-                shipPart[] statekPojedynczyTab = new shipPart[1];
-                statekPojedynczyTab[0] = temp;
-                ship statekPojedynczy = new ship(statekPojedynczyTab);
-                statki[shipCounter] = statekPojedynczy;
-
-                for (shipPart p : statekPojedynczyTab) {
-                    zablokujSasiedniePola(p.getXPolozenie(), p.getYPolozenie());
-                }
-                shipCounter++;
-
-            }
-            if (jRadioButton2.isSelected() && counter2 > 0 && temp.isEnabled()) {
-                temp.selectedToFight();
-                shipPart[] statekPodwojnyTab = new shipPart[2];
-                statekPodwojnyTab[0] = temp;
-
-                if (poleBitwy[(tempX + tempY * 12) + 1].getXPolozenie() < 6 && poleBitwy[(tempX + tempY * 12) + 1].isEnabled()) {
-                    poleBitwy[(tempX + tempY * 12) + 1].selectedToFight();
-                    statekPodwojnyTab[1] = poleBitwy[(tempX + tempY * 12) - 1];
-
-                } else {
-                    poleBitwy[(tempX + tempY * 12) - 1].selectedToFight();
-                    statekPodwojnyTab[1] = poleBitwy[(tempX + tempY * 12) + 1];
-
-                }
-                ship statekPodwojny = new ship(statekPodwojnyTab);
-                statki[shipCounter] = statekPodwojny;
-                shipCounter++;
-                for (shipPart p : statekPodwojnyTab) {
-                    zablokujSasiedniePola(p.getXPolozenie(), p.getYPolozenie());
-                }
-                counter2--;
-                jLabel2.setText("Pozostało : " + Integer.toString(counter2));
-
-            } else if (jRadioButton3.isSelected() && counter3 > 0 && temp.isEnabled()) {
-                temp.selectedToFight();
-                shipPart[] statekPotrojnyTab = new shipPart[3];
-                statekPotrojnyTab[0] = temp;
-                if (((tempX + tempY * 12) + 2) > 144 || poleBitwy[(tempX + tempY * 12) + 2].getYPolozenie() > temp.getYPolozenie()) {
-                    poleBitwy[(tempX + tempY * 12) - 1].selectedToFight();
-                    statekPotrojnyTab[1] = poleBitwy[(tempX + tempY * 12) - 1];
-
-                    if (((tempX + tempY * 12) + 1) > 144 || poleBitwy[(tempX + tempY * 12) + 1].getYPolozenie() > temp.getYPolozenie()) {
-                        poleBitwy[(tempX + tempY * 12) - 2].selectedToFight();
-                        statekPotrojnyTab[2] = poleBitwy[(tempX + tempY * 12) - 2];
-
-                    } else {
-                        poleBitwy[(tempX + tempY * 12) + 1].selectedToFight();
-                        statekPotrojnyTab[1] = poleBitwy[(tempX + tempY * 12) + 1];
-
-                    }
-                } else {
-                    poleBitwy[(tempX + tempY * 12) + 1].selectedToFight();
-                    poleBitwy[(tempX + tempY * 12) + 2].selectedToFight();
-                    statekPotrojnyTab[1] = poleBitwy[(tempX + tempY * 12) + 1];
-                    statekPotrojnyTab[2] = poleBitwy[(tempX + tempY * 12) + 2];
-
-                }
-                ship statekPotrojny = new ship(statekPotrojnyTab);
-                statki[shipCounter] = statekPotrojny;
-                shipCounter++;
-                counter3--;
-                for (shipPart p : statekPotrojnyTab) {
-                    zablokujSasiedniePola(p.getXPolozenie(), p.getYPolozenie());
-                }
-                jLabel3.setText("Pozostało : " + Integer.toString(counter3));
-
-            } else if (jRadioButton4.isSelected() && counter4 > 0 && temp.isEnabled()) {
-                temp.selectedToFight();
-                shipPart[] statekPoczwornyTab = new shipPart[4];
-                statekPoczwornyTab[0] = temp;
-                if (((tempX + tempY * 12) + 3) > 144 || poleBitwy[(tempX + tempY * 12) + 3].getYPolozenie() > temp.getYPolozenie()) {
-                    poleBitwy[(tempX + tempY * 12) - 1].selectedToFight();
-                    statekPoczwornyTab[1] = poleBitwy[(tempX + tempY * 12) - 1];
-
-                    if (((tempX + tempY * 12) + 2) > 144 || poleBitwy[(tempX + tempY * 12) + 2].getYPolozenie() > temp.getYPolozenie()) {
-                        poleBitwy[(tempX + tempY * 12) - 2].selectedToFight();
-                        statekPoczwornyTab[2] = poleBitwy[(tempX + tempY * 12) - 2];
-
-                        if (((tempX + tempY * 12) + 1) > 144 || poleBitwy[(tempX + tempY * 12) + 1].getYPolozenie() > temp.getYPolozenie()) {
-                            poleBitwy[(tempX + tempY * 12) - 3].selectedToFight();
-                            statekPoczwornyTab[3] = poleBitwy[(tempX + tempY * 12) - 3];
-
-                        } else {
-                            poleBitwy[(tempX + tempY * 12) + 1].selectedToFight();
-                            statekPoczwornyTab[1] = poleBitwy[(tempX + tempY * 12) + 1];
-
-                        }
-                    } else {
-                        poleBitwy[(tempX + tempY * 12) + 1].selectedToFight();
-                        poleBitwy[(tempX + tempY * 12) + 2].selectedToFight();
-                        statekPoczwornyTab[1] = poleBitwy[(tempX + tempY * 12) + 1];
-                        statekPoczwornyTab[2] = poleBitwy[(tempX + tempY * 12) + 2];
-
-                    }
-                } else {
-                    poleBitwy[(tempX + tempY * 12) + 3].selectedToFight();
-                    poleBitwy[(tempX + tempY * 12) + 2].selectedToFight();
-                    poleBitwy[(tempX + tempY * 12) + 1].selectedToFight();
-                    statekPoczwornyTab[1] = poleBitwy[(tempX + tempY * 12) + 1];
-                    statekPoczwornyTab[2] = poleBitwy[(tempX + tempY * 12) + 2];
-                    statekPoczwornyTab[3] = poleBitwy[(tempX + tempY * 12) + 3];
-
-                }
-
-                ship statekPoczworny = new ship(statekPoczwornyTab);
-                statki[shipCounter] = statekPoczworny;
-                shipCounter++;
-                counter4--;
-                for (shipPart p : statekPoczwornyTab) {
-                    zablokujSasiedniePola(p.getXPolozenie(), p.getYPolozenie());
-                }
-                jLabel4.setText("Pozostało : " + Integer.toString(counter4));
-
-            }
-        } else {
+        if (!horOrver && temp.isEnabled()) {
             if (jRadioButton1.isSelected() && counter1 > 0) {
-                counter1--;
-                jLabel1.setText("Pozostało : " + Integer.toString(counter1));
-
                 temp.selectedToFight();
 
                 shipPart[] statekPojedynczyTab = new shipPart[1];
                 statekPojedynczyTab[0] = temp;
                 ship statekPojedynczy = new ship(statekPojedynczyTab);
                 statki[shipCounter] = statekPojedynczy;
-
+                ostatni = statekPojedynczyTab;
                 for (shipPart p : statekPojedynczyTab) {
                     zablokujSasiedniePola(p.getXPolozenie(), p.getYPolozenie());
                 }
+                counter1--;
+                jLabel1.setText("Pozostało : " + Integer.toString(counter1));
                 shipCounter++;
+                jButton2.setEnabled(true);
             } else if (jRadioButton2.isSelected() && counter2 > 0) {
 
                 shipPart[] podwojnyStatekTab = new shipPart[2];
 
-                if (poleBitwy[(tempX + tempY * 12)].getYPolozenie() > 5 && poleBitwy[tempX + (tempY - 1) * 12].isEnabled()) {
+                if (poleBitwy[(tempX + tempY * 12)].getXPolozenie() >= 5 && poleBitwy[tempX + (tempY * 12) - 1].isEnabled()) {
+                    temp.selectedToFight();
+                    poleBitwy[tempX + (tempY * 12) - 1].selectedToFight();
+
+                    podwojnyStatekTab[0] = temp;
+                    podwojnyStatekTab[1] = poleBitwy[tempX + (tempY * 12) - 1];
+                    statki[shipCounter] = new ship(podwojnyStatekTab);
+                    ostatni = podwojnyStatekTab;
+                    for (shipPart p : podwojnyStatekTab) {
+                        zablokujSasiedniePola(p.getXPolozenie(), p.getYPolozenie());
+                    }
+                    counter2--;
+                    jLabel2.setText("Pozostało : " + Integer.toString(counter2));
+                    shipCounter++;
+                    jButton2.setEnabled(true);
+
+                } else if (poleBitwy[(tempX + tempY * 12)].getXPolozenie() < 5 && poleBitwy[tempX + (tempY * 12) + 1].isEnabled()) {
+                    temp.selectedToFight();
+                    poleBitwy[tempX + (tempY * 12) + 1].selectedToFight();
+
+                    podwojnyStatekTab[0] = temp;
+                    podwojnyStatekTab[1] = poleBitwy[tempX + (tempY * 12) + 1];
+                    statki[shipCounter] = new ship(podwojnyStatekTab);
+                    ostatni = podwojnyStatekTab;
+                    for (shipPart p : podwojnyStatekTab) {
+                        zablokujSasiedniePola(p.getXPolozenie(), p.getYPolozenie());
+                    }
+                    counter2--;
+                    jLabel2.setText("Pozostało : " + Integer.toString(counter2));
+                    shipCounter++;
+                    jButton2.setEnabled(true);
+
+                }
+            } else if (jRadioButton3.isSelected() && counter3 > 0) {
+                shipPart[] potrojnyStatekTab = new shipPart[3];
+                if (poleBitwy[(tempX + tempY * 12)].getXPolozenie() >= 5 && poleBitwy[tempX + (tempY * 12) - 1].isEnabled()
+                        && poleBitwy[tempX + (tempY * 12) - 2].isEnabled()) {
+                    temp.selectedToFight();
+                    poleBitwy[tempX + (tempY * 12) - 1].selectedToFight();
+                    poleBitwy[tempX + (tempY * 12) - 2].selectedToFight();
+                    statki[shipCounter] = new ship(potrojnyStatekTab);
+                    ostatni = potrojnyStatekTab;
+                    potrojnyStatekTab[0] = temp;
+                    potrojnyStatekTab[1] = poleBitwy[tempX + (tempY * 12) - 1];
+                    potrojnyStatekTab[2] = poleBitwy[tempX + (tempY * 12) - 2];
+
+                    for (shipPart p : potrojnyStatekTab) {
+                        zablokujSasiedniePola(p.getXPolozenie(), p.getYPolozenie());
+                    }
+                    counter3--;
+                    jLabel3.setText("Pozostało : " + Integer.toString(counter3));
+                    shipCounter++;
+                    jButton2.setEnabled(true);
+
+                } else if (poleBitwy[(tempX + tempY * 12)].getXPolozenie() < 5 && poleBitwy[tempX + (tempY * 12) + 1].isEnabled()
+                        && poleBitwy[tempX + (tempY * 12) + 2].isEnabled()) {
+                    temp.selectedToFight();
+                    poleBitwy[tempX + (tempY * 12) + 1].selectedToFight();
+                    poleBitwy[tempX + (tempY * 12) + 2].selectedToFight();
+
+                    potrojnyStatekTab[0] = temp;
+                    potrojnyStatekTab[1] = poleBitwy[tempX + (tempY * 12) + 1];
+                    potrojnyStatekTab[2] = poleBitwy[tempX + (tempY * 12) + 2];
+                    statki[shipCounter] = new ship(potrojnyStatekTab);
+                    ostatni = potrojnyStatekTab;
+                    for (shipPart p : potrojnyStatekTab) {
+                        zablokujSasiedniePola(p.getXPolozenie(), p.getYPolozenie());
+                    }
+                    counter3--;
+                    jLabel3.setText("Pozostało : " + Integer.toString(counter3));
+                    shipCounter++;
+                    jButton2.setEnabled(true);
+
+                }
+            } else if (jRadioButton4.isSelected() && counter4 > 0) {
+                shipPart[] poczwornyStatekTab = new shipPart[4];
+                if (poleBitwy[(tempX + tempY * 12)].getXPolozenie() >= 5 && poleBitwy[tempX + (tempY * 12) - 1].isEnabled()
+                        && poleBitwy[tempX + (tempY * 12) - 2].isEnabled() && poleBitwy[tempX + (tempY * 12) - 3].isEnabled()) {
+                    temp.selectedToFight();
+                    poleBitwy[tempX + (tempY * 12) - 1].selectedToFight();
+                    poleBitwy[tempX + (tempY * 12) - 2].selectedToFight();
+                    poleBitwy[tempX + (tempY * 12) - 3].selectedToFight();
+                    poczwornyStatekTab[0] = temp;
+                    poczwornyStatekTab[1] = poleBitwy[tempX + (tempY * 12) - 1];
+                    poczwornyStatekTab[2] = poleBitwy[tempX + (tempY * 12) - 2];
+                    poczwornyStatekTab[3] = poleBitwy[tempX + (tempY * 12) - 3];
+                    statki[shipCounter] = new ship(poczwornyStatekTab);
+                    ostatni = poczwornyStatekTab;
+                    for (shipPart p : poczwornyStatekTab) {
+                        zablokujSasiedniePola(p.getXPolozenie(), p.getYPolozenie());
+                    }
+                    counter4--;
+                    jLabel4.setText("Pozostało : " + Integer.toString(counter4));
+                    shipCounter++;
+                    jButton2.setEnabled(true);
+
+                } else if (poleBitwy[(tempX + tempY * 12)].getXPolozenie() < 5 && poleBitwy[tempX + (tempY * 12)+ 1].isEnabled()
+                        && poleBitwy[tempX + (tempY * 12) + 2].isEnabled() && poleBitwy[tempX + (tempY* 12)  + 3].isEnabled()) {
+                    temp.selectedToFight();
+                    poleBitwy[tempX + (tempY * 12) + 1].selectedToFight();
+                    poleBitwy[tempX + (tempY * 12) + 2].selectedToFight();
+                    poleBitwy[tempX + (tempY * 12) + 3].selectedToFight();
+                    poczwornyStatekTab[0] = temp;
+                    poczwornyStatekTab[1] = poleBitwy[tempX + (tempY * 12) + 1];
+                    poczwornyStatekTab[2] = poleBitwy[tempX + (tempY * 12) + 2];
+                    poczwornyStatekTab[3] = poleBitwy[tempX + (tempY * 12) + 3];
+                    statki[shipCounter] = new ship(poczwornyStatekTab);
+                    ostatni = poczwornyStatekTab;
+                    for (shipPart p : poczwornyStatekTab) {
+                        zablokujSasiedniePola(p.getXPolozenie(), p.getYPolozenie());
+                    }
+                    counter4--;
+                    jLabel4.setText("Pozostało : " + Integer.toString(counter4));
+                    shipCounter++;
+                    jButton2.setEnabled(true);
+
+                }
+            }
+        } else if (horOrver && temp.isEnabled()) {
+            if (jRadioButton1.isSelected() && counter1 > 0) {
+                jLabel1.setText("Pozostało : " + Integer.toString(counter1));
+                temp.selectedToFight();
+
+                shipPart[] statekPojedynczyTab = new shipPart[1];
+                statekPojedynczyTab[0] = temp;
+                ship statekPojedynczy = new ship(statekPojedynczyTab);
+                statki[shipCounter] = statekPojedynczy;
+                ostatni = statekPojedynczyTab;
+                for (shipPart p : statekPojedynczyTab) {
+                    zablokujSasiedniePola(p.getXPolozenie(), p.getYPolozenie());
+                }
+                counter1--;
+                jLabel1.setText("Pozostało : " + Integer.toString(counter1));
+                shipCounter++;
+                jButton2.setEnabled(true);
+
+            } else if (jRadioButton2.isSelected() && counter2 > 0) {
+
+                shipPart[] podwojnyStatekTab = new shipPart[2];
+
+                if (poleBitwy[(tempX + tempY * 12)].getYPolozenie() >= 5 && poleBitwy[tempX + (tempY - 1) * 12].isEnabled()) {
                     temp.selectedToFight();
                     poleBitwy[tempX + (tempY - 1) * 12].selectedToFight();
 
                     podwojnyStatekTab[0] = temp;
                     podwojnyStatekTab[1] = poleBitwy[tempX + (tempY - 1) * 12];
+                    statki[shipCounter] = new ship(podwojnyStatekTab);
+                    ostatni = podwojnyStatekTab;
                     for (shipPart p : podwojnyStatekTab) {
                         zablokujSasiedniePola(p.getXPolozenie(), p.getYPolozenie());
                     }
-                    shipCounter++;
                     counter2--;
-                } else if (poleBitwy[(tempX + tempY * 12)].getYPolozenie() < 5 && poleBitwy[tempX + (tempY - 1) * 12].isEnabled()) {
+                    jLabel2.setText("Pozostało : " + Integer.toString(counter2));
+                    shipCounter++;
+                    jButton2.setEnabled(true);
+
+                } else if (poleBitwy[(tempX + tempY * 12)].getYPolozenie() < 5 && poleBitwy[tempX + (tempY + 1) * 12].isEnabled()) {
                     temp.selectedToFight();
                     poleBitwy[tempX + (tempY + 1) * 12].selectedToFight();
 
                     podwojnyStatekTab[0] = temp;
                     podwojnyStatekTab[1] = poleBitwy[tempX + (tempY + 1) * 12];
                     statki[shipCounter] = new ship(podwojnyStatekTab);
+                    ostatni = podwojnyStatekTab;
                     for (shipPart p : podwojnyStatekTab) {
                         zablokujSasiedniePola(p.getXPolozenie(), p.getYPolozenie());
                     }
-                    shipCounter++;
                     counter2--;
+                    jLabel2.setText("Pozostało : " + Integer.toString(counter2));
+                    shipCounter++;
+                    jButton2.setEnabled(true);
+
                 }
             } else if (jRadioButton3.isSelected() && counter3 > 0) {
-                if (poleBitwy[(tempX + tempY * 12)].getYPolozenie() > 5 && poleBitwy[tempX + (tempY - 1) * 12].isEnabled()
+                shipPart[] potrojnyStatekTab = new shipPart[3];
+                if (poleBitwy[(tempX + tempY * 12)].getYPolozenie() >= 5 && poleBitwy[tempX + (tempY - 1) * 12].isEnabled()
                         && poleBitwy[tempX + (tempY - 2) * 12].isEnabled()) {
                     temp.selectedToFight();
                     poleBitwy[tempX + (tempY - 1) * 12].selectedToFight();
                     poleBitwy[tempX + (tempY - 2) * 12].selectedToFight();
 
+                    potrojnyStatekTab[0] = temp;
+                    potrojnyStatekTab[1] = poleBitwy[tempX + (tempY - 1) * 12];
+                    potrojnyStatekTab[2] = poleBitwy[tempX + (tempY - 2) * 12];
+                    statki[shipCounter] = new ship(potrojnyStatekTab);
+                    ostatni = potrojnyStatekTab;
+                    for (shipPart p : potrojnyStatekTab) {
+                        zablokujSasiedniePola(p.getXPolozenie(), p.getYPolozenie());
+                    }
                     counter3--;
+                    jLabel3.setText("Pozostało : " + Integer.toString(counter3));
+                    shipCounter++;
+                    jButton2.setEnabled(true);
+
                 } else if (poleBitwy[(tempX + tempY * 12)].getYPolozenie() < 5 && poleBitwy[tempX + (tempY + 1) * 12].isEnabled()
                         && poleBitwy[tempX + (tempY + 2) * 12].isEnabled()) {
                     temp.selectedToFight();
                     poleBitwy[tempX + (tempY + 1) * 12].selectedToFight();
                     poleBitwy[tempX + (tempY + 2) * 12].selectedToFight();
 
+                    potrojnyStatekTab[0] = temp;
+                    potrojnyStatekTab[1] = poleBitwy[tempX + (tempY + 1) * 12];
+                    potrojnyStatekTab[2] = poleBitwy[tempX + (tempY + 2) * 12];
+                    statki[shipCounter] = new ship(potrojnyStatekTab);
+                    ostatni = potrojnyStatekTab;
+                    for (shipPart p : potrojnyStatekTab) {
+                        zablokujSasiedniePola(p.getXPolozenie(), p.getYPolozenie());
+                    }
                     counter3--;
+                    jLabel3.setText("Pozostało : " + Integer.toString(counter3));
+                    shipCounter++;
+                    jButton2.setEnabled(true);
+
                 }
             } else if (jRadioButton4.isSelected() && counter4 > 0) {
-                if (poleBitwy[(tempX + tempY * 12)].getYPolozenie() > 5 && poleBitwy[tempX + (tempY - 1) * 12].isEnabled()
+                shipPart[] poczwornyStatekTab = new shipPart[4];
+                if (poleBitwy[(tempX + tempY * 12)].getYPolozenie() >= 5 && poleBitwy[tempX + (tempY - 1) * 12].isEnabled()
                         && poleBitwy[tempX + (tempY - 2) * 12].isEnabled() && poleBitwy[tempX + (tempY - 3) * 12].isEnabled()) {
                     temp.selectedToFight();
                     poleBitwy[tempX + (tempY - 1) * 12].selectedToFight();
                     poleBitwy[tempX + (tempY - 2) * 12].selectedToFight();
                     poleBitwy[tempX + (tempY - 3) * 12].selectedToFight();
+                    poczwornyStatekTab[0] = temp;
+                    poczwornyStatekTab[1] = poleBitwy[tempX + (tempY - 1) * 12];
+                    poczwornyStatekTab[2] = poleBitwy[tempX + (tempY - 2) * 12];
+                    poczwornyStatekTab[3] = poleBitwy[tempX + (tempY - 3) * 12];
+                    statki[shipCounter] = new ship(poczwornyStatekTab);
+                    ostatni = poczwornyStatekTab;
+                    for (shipPart p : poczwornyStatekTab) {
+                        zablokujSasiedniePola(p.getXPolozenie(), p.getYPolozenie());
+                    }
                     counter4--;
+                    jLabel4.setText("Pozostało : " + Integer.toString(counter4));
+                    shipCounter++;
+                    jButton2.setEnabled(true);
+
                 } else if (poleBitwy[(tempX + tempY * 12)].getYPolozenie() < 5 && poleBitwy[tempX + (tempY + 1) * 12].isEnabled()
                         && poleBitwy[tempX + (tempY + 2) * 12].isEnabled() && poleBitwy[tempX + (tempY + 3) * 12].isEnabled()) {
                     temp.selectedToFight();
                     poleBitwy[tempX + (tempY + 1) * 12].selectedToFight();
                     poleBitwy[tempX + (tempY + 2) * 12].selectedToFight();
                     poleBitwy[tempX + (tempY + 3) * 12].selectedToFight();
+                    poczwornyStatekTab[0] = temp;
+                    poczwornyStatekTab[1] = poleBitwy[tempX + (tempY + 1) * 12];
+                    poczwornyStatekTab[2] = poleBitwy[tempX + (tempY + 2) * 12];
+                    poczwornyStatekTab[3] = poleBitwy[tempX + (tempY + 3) * 12];
+                    statki[shipCounter] = new ship(poczwornyStatekTab);
+                    ostatni = poczwornyStatekTab;
+                    for (shipPart p : poczwornyStatekTab) {
+                        zablokujSasiedniePola(p.getXPolozenie(), p.getYPolozenie());
+                    }
                     counter4--;
+                    jLabel4.setText("Pozostało : " + Integer.toString(counter4));
+                    shipCounter++;
+                    jButton2.setEnabled(true);
+
                 }
             }
         }
@@ -482,6 +615,18 @@ public class setShipsOnField extends javax.swing.JPanel implements MouseInputLis
         poleBitwy[(x + 1) + (y - 1) * 12].disableField();
         poleBitwy[(x + 1) + y * 12].disableField();
         poleBitwy[(x + 1) + (y + 1) * 12].disableField();
+    }
+
+    public void odblokujPole(int x, int y) {
+        poleBitwy[(x + (y - 1) * 12)].enableField();
+        poleBitwy[(x - 1) + (y - 1) * 12].enableField();
+        poleBitwy[(x - 1) + y * 12].enableField();
+        poleBitwy[(x - 1) + (y + 1) * 12].enableField();
+        poleBitwy[x + (y + 1) * 12].enableField();
+        poleBitwy[(x + 1) + (y - 1) * 12].enableField();
+        poleBitwy[(x + 1) + y * 12].enableField();
+        poleBitwy[(x + 1) + (y + 1) * 12].enableField();
+        poleBitwy[x + y * 12].enableField();
     }
 
     @Override
@@ -503,14 +648,14 @@ public class setShipsOnField extends javax.swing.JPanel implements MouseInputLis
 
         if (!horOrver) {
             if (jRadioButton2.isSelected()) {
-                if (poleBitwy[(tempX + tempY * 12)].getXPolozenie() > 5) {
+                if (poleBitwy[(tempX + tempY * 12)].getXPolozenie() >= 5) {
                     poleBitwy[(tempX + tempY * 12) - 1].focused();
                 } else {
                     poleBitwy[(tempX + tempY * 12) + 1].focused();
                 }
 
             } else if (jRadioButton3.isSelected()) {
-                if (poleBitwy[(tempX + tempY * 12)].getXPolozenie() > 5) {
+                if (poleBitwy[(tempX + tempY * 12)].getXPolozenie() >= 5) {
                     poleBitwy[(tempX + tempY * 12) - 1].focused();
                     poleBitwy[(tempX + tempY * 12) - 2].focused();
                 } else {
@@ -518,7 +663,7 @@ public class setShipsOnField extends javax.swing.JPanel implements MouseInputLis
                     poleBitwy[(tempX + tempY * 12) + 2].focused();
                 }
             } else if (jRadioButton4.isSelected()) {
-                if (poleBitwy[(tempX + tempY * 12)].getXPolozenie() > 5) {
+                if (poleBitwy[(tempX + tempY * 12)].getXPolozenie() >= 5) {
                     poleBitwy[(tempX + tempY * 12) - 1].focused();
                     poleBitwy[(tempX + tempY * 12) - 2].focused();
                     poleBitwy[(tempX + tempY * 12) - 3].focused();
@@ -530,14 +675,14 @@ public class setShipsOnField extends javax.swing.JPanel implements MouseInputLis
             }
         } else {
             if (jRadioButton2.isSelected()) {
-                if (poleBitwy[(tempX + tempY * 12)].getYPolozenie() > 5) {
+                if (poleBitwy[(tempX + tempY * 12)].getYPolozenie() >= 5) {
                     poleBitwy[tempX + (tempY - 1) * 12].focused();
                 } else {
                     poleBitwy[tempX + (tempY + 1) * 12].focused();
                 }
 
             } else if (jRadioButton3.isSelected()) {
-                if (poleBitwy[(tempX + tempY * 12)].getYPolozenie() > 5) {
+                if (poleBitwy[(tempX + tempY * 12)].getYPolozenie() >= 5) {
                     poleBitwy[tempX + (tempY - 1) * 12].focused();
                     poleBitwy[tempX + (tempY - 2) * 12].focused();
 
@@ -546,7 +691,7 @@ public class setShipsOnField extends javax.swing.JPanel implements MouseInputLis
                     poleBitwy[tempX + (tempY + 2) * 12].focused();
                 }
             } else if (jRadioButton4.isSelected()) {
-                if (poleBitwy[(tempX + tempY * 12)].getYPolozenie() > 5) {
+                if (poleBitwy[(tempX + tempY * 12)].getYPolozenie() >= 5) {
                     poleBitwy[tempX + (tempY - 1) * 12].focused();
                     poleBitwy[tempX + (tempY - 2) * 12].focused();
                     poleBitwy[tempX + (tempY - 3) * 12].focused();

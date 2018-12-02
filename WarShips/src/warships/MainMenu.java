@@ -6,6 +6,9 @@
 package warships;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /**
@@ -14,11 +17,9 @@ import javax.swing.*;
  */
 public class MainMenu extends javax.swing.JPanel {
 
-    /**
-     * Creates new form MainMenu
-     */
     public MainMenu() {
         initComponents();
+        
     }
 
 
@@ -115,6 +116,8 @@ public class MainMenu extends javax.swing.JPanel {
                 .addGap(27, 27, 27))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+
 
     private void startGameButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_startGameButtonMouseClicked
         

@@ -6,7 +6,7 @@ import java.net.ServerSocket;
 
 public class server extends obiektSieciowy {
     private ServerSocket socketServer;
-    public Socket socket;
+    private Socket socket;
     
     public server(int port){
         try {
@@ -38,12 +38,22 @@ public class server extends obiektSieciowy {
     }
 
     @Override
-    void Send(String s) {
+    public void Send(String s) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    String Receive() {
+    public String Receive() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void ready() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Socket getSocket() {
+        return socket;
     }
 }

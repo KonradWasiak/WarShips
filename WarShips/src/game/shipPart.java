@@ -24,6 +24,11 @@ public class shipPart extends JButton {
     boolean selected = false;
     boolean destroyed = false;
 
+    public shipPart(){
+        super();
+        this.xPolozenie=0;
+        this.ypolozenie=0;
+    }
     public shipPart(int x, int y) {
         super();
         this.xPolozenie = x;
@@ -69,4 +74,19 @@ public class shipPart extends JButton {
         this.selected = false;
     }
 
+    public void enableField() {
+       this.setEnabled(true);
+       this.selected = false;
+       this.setBackground(null);
+    }
+    public String toString(){
+        return "X: " + this.xPolozenie + "Y: " + this.ypolozenie + "State: " + this.selected;
+    }
+    public void dostalemSzczala(){
+        this.setBackground(Color.red);
+    }
+    public void puste(){
+        this.setBackground(Color.lightGray);
+        this.setEnabled(false);
+    }
 }

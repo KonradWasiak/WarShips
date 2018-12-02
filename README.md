@@ -9,5 +9,4 @@ Done:
 ✔️ Klasa ship przechowująca referencje do poszczególnych części statków
 
 ❌ Wysyłanie przez sieć danych 
-❌ Plansza z właściwą grą
-❌ Klasa opponentGameBoard
+✔️ Plansza z właściwą grą
