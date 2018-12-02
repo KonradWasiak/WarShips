@@ -266,6 +266,11 @@ public class setShipsOnField extends javax.swing.JPanel implements MouseInputLis
         for (shipPart p : ostatni) {
             odblokujPole(p.getXPolozenie(), p.getYPolozenie());
         }
+        for (int i =0;i<poleBitwy.length;i++){
+            if (poleBitwy[i].getBackground() == Color.green){
+                zablokujSasiedniePola(poleBitwy[i].getXPolozenie(), poleBitwy[i].getYPolozenie());
+            }
+        }
         if (ostatni.length == 1) {
             counter1++;
             jLabel1.setText("Pozostało : " + Integer.toString(counter1));

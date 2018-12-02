@@ -94,6 +94,7 @@ public class battleField extends javax.swing.JPanel implements MouseListener {
         jLabel28 = new javax.swing.JLabel();
         jLabel29 = new javax.swing.JLabel();
         jLabel30 = new javax.swing.JLabel();
+        jLabel31 = new javax.swing.JLabel();
 
         setMaximumSize(new java.awt.Dimension(1100, 600));
         setMinimumSize(new java.awt.Dimension(1100, 600));
@@ -113,7 +114,7 @@ public class battleField extends javax.swing.JPanel implements MouseListener {
         jLabel1.setFont(new java.awt.Font("MingLiU-ExtB", 1, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("1");
-        jLabel1.setBorder(new javax.swing.border.MatteBorder(null));
+        jLabel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabel1.setMaximumSize(new java.awt.Dimension(50, 50));
         jLabel1.setMinimumSize(new java.awt.Dimension(50, 50));
         jLabel1.setPreferredSize(new java.awt.Dimension(50, 50));
@@ -121,7 +122,7 @@ public class battleField extends javax.swing.JPanel implements MouseListener {
         jLabel2.setFont(new java.awt.Font("MingLiU-ExtB", 1, 24)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("2");
-        jLabel2.setBorder(new javax.swing.border.MatteBorder(null));
+        jLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabel2.setMaximumSize(new java.awt.Dimension(50, 50));
         jLabel2.setMinimumSize(new java.awt.Dimension(50, 50));
         jLabel2.setPreferredSize(new java.awt.Dimension(50, 50));
@@ -129,7 +130,7 @@ public class battleField extends javax.swing.JPanel implements MouseListener {
         jLabel3.setFont(new java.awt.Font("MingLiU-ExtB", 1, 24)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("3");
-        jLabel3.setBorder(new javax.swing.border.MatteBorder(null));
+        jLabel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabel3.setMaximumSize(new java.awt.Dimension(50, 50));
         jLabel3.setMinimumSize(new java.awt.Dimension(50, 50));
         jLabel3.setPreferredSize(new java.awt.Dimension(50, 50));
@@ -137,7 +138,7 @@ public class battleField extends javax.swing.JPanel implements MouseListener {
         jLabel4.setFont(new java.awt.Font("MingLiU-ExtB", 1, 24)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("4");
-        jLabel4.setBorder(new javax.swing.border.MatteBorder(null));
+        jLabel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabel4.setMaximumSize(new java.awt.Dimension(50, 50));
         jLabel4.setMinimumSize(new java.awt.Dimension(50, 50));
         jLabel4.setPreferredSize(new java.awt.Dimension(50, 50));
@@ -145,7 +146,7 @@ public class battleField extends javax.swing.JPanel implements MouseListener {
         jLabel5.setFont(new java.awt.Font("MingLiU-ExtB", 1, 24)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("5");
-        jLabel5.setBorder(new javax.swing.border.MatteBorder(null));
+        jLabel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabel5.setMaximumSize(new java.awt.Dimension(50, 50));
         jLabel5.setMinimumSize(new java.awt.Dimension(50, 50));
         jLabel5.setPreferredSize(new java.awt.Dimension(50, 50));
@@ -153,7 +154,7 @@ public class battleField extends javax.swing.JPanel implements MouseListener {
         jLabel6.setFont(new java.awt.Font("MingLiU-ExtB", 1, 24)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("6");
-        jLabel6.setBorder(new javax.swing.border.MatteBorder(null));
+        jLabel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabel6.setMaximumSize(new java.awt.Dimension(50, 50));
         jLabel6.setMinimumSize(new java.awt.Dimension(50, 50));
         jLabel6.setPreferredSize(new java.awt.Dimension(50, 50));
@@ -161,7 +162,7 @@ public class battleField extends javax.swing.JPanel implements MouseListener {
         jLabel7.setFont(new java.awt.Font("MingLiU-ExtB", 1, 24)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("7");
-        jLabel7.setBorder(new javax.swing.border.MatteBorder(null));
+        jLabel7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabel7.setMaximumSize(new java.awt.Dimension(50, 50));
         jLabel7.setMinimumSize(new java.awt.Dimension(50, 50));
         jLabel7.setPreferredSize(new java.awt.Dimension(50, 50));
@@ -170,7 +171,7 @@ public class battleField extends javax.swing.JPanel implements MouseListener {
         jLabel8.setFont(new java.awt.Font("MingLiU-ExtB", 1, 24)); // NOI18N
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setText("8");
-        jLabel8.setBorder(new javax.swing.border.MatteBorder(null));
+        jLabel8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabel8.setMaximumSize(new java.awt.Dimension(50, 50));
         jLabel8.setMinimumSize(new java.awt.Dimension(50, 50));
         jLabel8.setPreferredSize(new java.awt.Dimension(50, 50));
@@ -178,7 +179,7 @@ public class battleField extends javax.swing.JPanel implements MouseListener {
         jLabel9.setFont(new java.awt.Font("MingLiU-ExtB", 1, 24)); // NOI18N
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("9");
-        jLabel9.setBorder(new javax.swing.border.MatteBorder(null));
+        jLabel9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabel9.setMaximumSize(new java.awt.Dimension(50, 50));
         jLabel9.setMinimumSize(new java.awt.Dimension(50, 50));
         jLabel9.setPreferredSize(new java.awt.Dimension(50, 50));
@@ -186,7 +187,7 @@ public class battleField extends javax.swing.JPanel implements MouseListener {
         jLabel10.setFont(new java.awt.Font("MingLiU-ExtB", 1, 24)); // NOI18N
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel10.setText("10");
-        jLabel10.setBorder(new javax.swing.border.MatteBorder(null));
+        jLabel10.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabel10.setMaximumSize(new java.awt.Dimension(50, 50));
         jLabel10.setMinimumSize(new java.awt.Dimension(50, 50));
         jLabel10.setPreferredSize(new java.awt.Dimension(50, 50));
@@ -274,7 +275,7 @@ public class battleField extends javax.swing.JPanel implements MouseListener {
         jLabel21.setFont(new java.awt.Font("MingLiU-ExtB", 1, 24)); // NOI18N
         jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel21.setText("10");
-        jLabel21.setBorder(new javax.swing.border.MatteBorder(null));
+        jLabel21.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabel21.setMaximumSize(new java.awt.Dimension(50, 50));
         jLabel21.setMinimumSize(new java.awt.Dimension(50, 50));
         jLabel21.setPreferredSize(new java.awt.Dimension(50, 50));
@@ -282,7 +283,7 @@ public class battleField extends javax.swing.JPanel implements MouseListener {
         jLabel22.setFont(new java.awt.Font("MingLiU-ExtB", 1, 24)); // NOI18N
         jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel22.setText("9");
-        jLabel22.setBorder(new javax.swing.border.MatteBorder(null));
+        jLabel22.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabel22.setMaximumSize(new java.awt.Dimension(50, 50));
         jLabel22.setMinimumSize(new java.awt.Dimension(50, 50));
         jLabel22.setPreferredSize(new java.awt.Dimension(50, 50));
@@ -290,7 +291,7 @@ public class battleField extends javax.swing.JPanel implements MouseListener {
         jLabel23.setFont(new java.awt.Font("MingLiU-ExtB", 1, 24)); // NOI18N
         jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel23.setText("8");
-        jLabel23.setBorder(new javax.swing.border.MatteBorder(null));
+        jLabel23.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabel23.setMaximumSize(new java.awt.Dimension(50, 50));
         jLabel23.setMinimumSize(new java.awt.Dimension(50, 50));
         jLabel23.setPreferredSize(new java.awt.Dimension(50, 50));
@@ -298,7 +299,7 @@ public class battleField extends javax.swing.JPanel implements MouseListener {
         jLabel24.setFont(new java.awt.Font("MingLiU-ExtB", 1, 24)); // NOI18N
         jLabel24.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel24.setText("7");
-        jLabel24.setBorder(new javax.swing.border.MatteBorder(null));
+        jLabel24.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabel24.setMaximumSize(new java.awt.Dimension(50, 50));
         jLabel24.setMinimumSize(new java.awt.Dimension(50, 50));
         jLabel24.setPreferredSize(new java.awt.Dimension(50, 50));
@@ -307,7 +308,7 @@ public class battleField extends javax.swing.JPanel implements MouseListener {
         jLabel25.setFont(new java.awt.Font("MingLiU-ExtB", 1, 24)); // NOI18N
         jLabel25.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel25.setText("6");
-        jLabel25.setBorder(new javax.swing.border.MatteBorder(null));
+        jLabel25.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabel25.setMaximumSize(new java.awt.Dimension(50, 50));
         jLabel25.setMinimumSize(new java.awt.Dimension(50, 50));
         jLabel25.setPreferredSize(new java.awt.Dimension(50, 50));
@@ -315,7 +316,7 @@ public class battleField extends javax.swing.JPanel implements MouseListener {
         jLabel26.setFont(new java.awt.Font("MingLiU-ExtB", 1, 24)); // NOI18N
         jLabel26.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel26.setText("5");
-        jLabel26.setBorder(new javax.swing.border.MatteBorder(null));
+        jLabel26.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabel26.setMaximumSize(new java.awt.Dimension(50, 50));
         jLabel26.setMinimumSize(new java.awt.Dimension(50, 50));
         jLabel26.setPreferredSize(new java.awt.Dimension(50, 50));
@@ -323,7 +324,7 @@ public class battleField extends javax.swing.JPanel implements MouseListener {
         jLabel27.setFont(new java.awt.Font("MingLiU-ExtB", 1, 24)); // NOI18N
         jLabel27.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel27.setText("4");
-        jLabel27.setBorder(new javax.swing.border.MatteBorder(null));
+        jLabel27.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabel27.setMaximumSize(new java.awt.Dimension(50, 50));
         jLabel27.setMinimumSize(new java.awt.Dimension(50, 50));
         jLabel27.setPreferredSize(new java.awt.Dimension(50, 50));
@@ -331,7 +332,7 @@ public class battleField extends javax.swing.JPanel implements MouseListener {
         jLabel28.setFont(new java.awt.Font("MingLiU-ExtB", 1, 24)); // NOI18N
         jLabel28.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel28.setText("3");
-        jLabel28.setBorder(new javax.swing.border.MatteBorder(null));
+        jLabel28.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabel28.setMaximumSize(new java.awt.Dimension(50, 50));
         jLabel28.setMinimumSize(new java.awt.Dimension(50, 50));
         jLabel28.setPreferredSize(new java.awt.Dimension(50, 50));
@@ -339,7 +340,7 @@ public class battleField extends javax.swing.JPanel implements MouseListener {
         jLabel29.setFont(new java.awt.Font("MingLiU-ExtB", 1, 24)); // NOI18N
         jLabel29.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel29.setText("2");
-        jLabel29.setBorder(new javax.swing.border.MatteBorder(null));
+        jLabel29.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabel29.setMaximumSize(new java.awt.Dimension(50, 50));
         jLabel29.setMinimumSize(new java.awt.Dimension(50, 50));
         jLabel29.setPreferredSize(new java.awt.Dimension(50, 50));
@@ -347,56 +348,24 @@ public class battleField extends javax.swing.JPanel implements MouseListener {
         jLabel30.setFont(new java.awt.Font("MingLiU-ExtB", 1, 24)); // NOI18N
         jLabel30.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel30.setText("1");
-        jLabel30.setBorder(new javax.swing.border.MatteBorder(null));
+        jLabel30.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabel30.setMaximumSize(new java.awt.Dimension(50, 50));
         jLabel30.setMinimumSize(new java.awt.Dimension(50, 50));
         jLabel30.setPreferredSize(new java.awt.Dimension(50, 50));
+
+        jLabel31.setFont(new java.awt.Font("MingLiU-ExtB", 1, 14)); // NOI18N
+        jLabel31.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel31.setText("Twój ruch / ruch przeciwnika to by się zmienialo w zaleznosci czy nasluchuje czy moze strzelac, ewentualnie mozna to wypierdolic");
+        jLabel31.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(594, 594, 594)
                         .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
                         .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -415,7 +384,48 @@ public class battleField extends javax.swing.JPanel implements MouseListener {
                         .addGap(0, 0, 0)
                         .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
-                        .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, 0)
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, 0)
+                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, 0)
+                                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, 0)
+                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, 0)
+                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, 0)
+                                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, 0)
+                                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, 0)
+                                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, 0)
+                                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel31, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -469,7 +479,9 @@ public class battleField extends javax.swing.JPanel implements MouseListener {
                         .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
                         .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(50, 50, 50))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -499,6 +511,7 @@ public class battleField extends javax.swing.JPanel implements MouseListener {
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
