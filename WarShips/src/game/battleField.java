@@ -31,20 +31,34 @@ public class battleField extends javax.swing.JPanel implements MouseListener, Ru
     shipPart[] planszaPrzeciwnika = new shipPart[144];
     int czesciStatkuLicznik = 20;
     boolean mojRuch;
+    boolean przeciwnikGotowy = false;
+    boolean graTrwa = false;
+
     Thread t1;
     Thread t2;
     String ruchPrzeciwnika = "";
     obiektSieciowy obj;
 
     public battleField(shipPart[] pB, obiektSieciowy obiektSieciowyParam) {
+        this.obj = obiektSieciowyParam;
+
         if (obiektSieciowy.czySerwer) {
             mojRuch = true;
+
         } else {
             mojRuch = false;
-        }
+            obj.Send("GOTOWY");
 
+        }
+        t1 = new Thread(this);
+        t1.start();
         initComponents();
         planszaGracza = pB;
+        int xx = 0;
+        for (shipPart p : pB) {
+            p.setText(Integer.toString(xx));
+            xx++;
+        }
         int y = 0;
         for (int i = 0; i < planszaPrzeciwnika.length; i++) {
             int x = i - y * 12;
@@ -53,9 +67,10 @@ public class battleField extends javax.swing.JPanel implements MouseListener, Ru
                 x = i - y * 12;
             }
             planszaPrzeciwnika[i] = new shipPart(x, y);
-            planszaPrzeciwnika[i].setBounds(x * 50, y * 50, 50, 50);
+            planszaPrzeciwnika[i].setBounds(-50 + x * 50, -50 + y * 50, 50, 50);
             planszaPrzeciwnika[i].setEnabled(true);
             planszaPrzeciwnika[i].setVisible(true);
+            planszaPrzeciwnika[i].setText(Integer.toString(x + y * 12));
             planszaPrzeciwnika[i].addMouseListener(this);
             jPanel2.add(planszaPrzeciwnika[i]);
 
@@ -75,13 +90,39 @@ public class battleField extends javax.swing.JPanel implements MouseListener, Ru
             }
             jPanel1.add(pB[i]);
         }
+
+        for (int i = 0; i < 12; i++) {
+            planszaPrzeciwnika[i].setEnabled(false);
+            planszaPrzeciwnika[i].setFocusable(false);
+            planszaPrzeciwnika[i].setVisible(false);
+            planszaPrzeciwnika[i].disableField();
+        }
+        for (int i = 131; i < 143; i++) {
+            planszaPrzeciwnika[i].setEnabled(false);
+            planszaPrzeciwnika[i].setVisible(false);
+            planszaPrzeciwnika[i].disableField();
+            planszaPrzeciwnika[i].setFocusable(false);
+
+        }
+        for (int i = 0; i < 144; i++) {
+            if ((i % 12 == 0) || ((i + 1) % 12 == 0)) {
+                planszaPrzeciwnika[i].setEnabled(false);
+                planszaPrzeciwnika[i].setFocusable(false);
+                planszaPrzeciwnika[i].setVisible(false);
+                planszaPrzeciwnika[i].disableField();
+            }
+        }
+
         for (int i = 0; i < pB.length; i++) {
             System.out.println(pB[i].toString());
         }
 
-        this.obj = obiektSieciowyParam;
-        t1 = new Thread(this);
-        t1.start();
+        disableAllFields();
+
+        if (!mojRuch) {
+            disableAllFields();
+        }
+        jLabel31.setText("CZEKAJ AŻ PRZECIWNIK DOŁĄCZY");
 
     }
 
@@ -382,7 +423,7 @@ public class battleField extends javax.swing.JPanel implements MouseListener, Ru
 
         jLabel31.setFont(new java.awt.Font("MingLiU-ExtB", 1, 14)); // NOI18N
         jLabel31.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel31.setText("Twój ruch / ruch przeciwnika to by się zmienialo w zaleznosci czy nasluchuje czy moze strzelac, ewentualnie mozna to wypierdolic");
+        jLabel31.setText("...");
         jLabel31.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -510,6 +551,8 @@ public class battleField extends javax.swing.JPanel implements MouseListener, Ru
                 .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
+
+        jLabel31.getAccessibleContext().setAccessibleName(".");
     }// </editor-fold>//GEN-END:initComponents
 
 
@@ -552,33 +595,18 @@ public class battleField extends javax.swing.JPanel implements MouseListener, Ru
     @Override
     public void mouseClicked(MouseEvent e) {
         shipPart temp = (shipPart) e.getComponent();
-        //Tutaj po kliknieciu wyslac wiadomosc do przeciwnika
-        //I jesli trafiony to
-
-        int xToSend = temp.getXPolozenie() + 1;
-        int yToSend = temp.getYPolozenie() + 1;
-        String X = Integer.toString(xToSend);
-        String Y = Integer.toString(yToSend);
+        temp.removeMouseListener(this);
+        int xToSend = temp.getXPolozenie();
+        int yToSend = temp.getYPolozenie();
 
         if (mojRuch) {
-            obj.Send(X + Y);
+            obj.Send(Integer.toString(xToSend + yToSend * 12));
+            if (!graTrwa) {
+                graTrwa = true;
+            }
         }
-
-        disableAllFields();
-        this.mojRuch = false;
         ruchPrzeciwnika = "";
 
-//        if (!temp.isEnabled()) {
-//            temp.setDestroyed();
-//        }
-//        //Jesli nie 
-//        if (temp.isEnabled()) {
-//            temp.setMissed();
-//        }
-        //I po kazdym kliknieciu
-//        temp.setEnabled(false);
-//        planszaGracza[(temp.getXPolozenie() + temp.getYPolozenie() * 10)].setEnabled(false);
-        //i jeszcze trzeba odbierac od drugieo gracza info czy koniec juz, i wtedy message box jakis i przenosic do menu
         if (false) {
             JFrame window = (JFrame) e.getComponent().getParent().getParent().getParent().getParent().getParent();
             window.setContentPane(new MainMenu());
@@ -629,6 +657,8 @@ public class battleField extends javax.swing.JPanel implements MouseListener, Ru
     public void enableAllFields() {
         for (shipPart p : planszaPrzeciwnika) {
             p.setEnabled(true);
+        }
+        for (shipPart p : planszaPrzeciwnika) {
             if (p.destroyed) {
                 p.setBackground(Color.red);
                 p.setEnabled(false);
@@ -645,32 +675,35 @@ public class battleField extends javax.swing.JPanel implements MouseListener, Ru
         while (true) {
             ruchPrzeciwnika = obj.Receive();
             System.out.println(ruchPrzeciwnika);
-            if ((!ruchPrzeciwnika.equals("")) && (!ruchPrzeciwnika.contains("TRAFIONY")) && (!ruchPrzeciwnika.contains("PUDLO"))) {
-                mojRuch = true;
-                int ruchPrzeciwnikaX = Integer.parseInt(ruchPrzeciwnika.substring(0, 1));
-                int ruchPrzeciwnikaY = Integer.parseInt(ruchPrzeciwnika.substring(1));
-                if (planszaGracza[ruchPrzeciwnikaX + ruchPrzeciwnikaY * 12].selected) {
-                    planszaGracza[ruchPrzeciwnikaX + ruchPrzeciwnikaY * 12].setDestroyed();
-                    planszaGracza[ruchPrzeciwnikaX + ruchPrzeciwnikaY * 12].setText("X");
+            if ((!ruchPrzeciwnika.equals("")) && (!ruchPrzeciwnika.contains("TRAFIONY")) && (!ruchPrzeciwnika.contains("PUDLO")
+                    && !ruchPrzeciwnika.contains("GOTOWY")) && (!ruchPrzeciwnika.contains("WYGRALES"))) {
+                graTrwa = true;
+                int ruchP = Integer.parseInt(ruchPrzeciwnika);
+
+                if (planszaGracza[ruchP].selected) {
+                    planszaGracza[ruchP].setDestroyed();
+                    planszaGracza[ruchP].setText("X");
                     czesciStatkuLicznik--;
-                    obj.Send("TRAFIONY" + ruchPrzeciwnika);
+                    obj.Send("TRAFIONY" + ruchP);
+                    mojRuch = false;
                 } else {
-                    planszaGracza[ruchPrzeciwnikaX + ruchPrzeciwnikaY * 12].setMissed();
-                    obj.Send("PUDLO" + ruchPrzeciwnika);
+                    planszaGracza[ruchP].setMissed();
+                    obj.Send("PUDLO" + ruchP);
+                    jLabel31.setText("TWÓJ RUCH");
+                    mojRuch = true;
                 }
-                enableAllFields();
             } else if (ruchPrzeciwnika.contains("TRAFIONY")) {
-                int ruchPrzeciwnikaX = Integer.parseInt(ruchPrzeciwnika.substring(8, 9));
-                int ruchPrzeciwnikaY = Integer.parseInt(ruchPrzeciwnika.substring(9));
-                ruchPrzeciwnikaX--;
-                ruchPrzeciwnikaY--;
-                planszaPrzeciwnika[ruchPrzeciwnikaX + ruchPrzeciwnikaY * 12].setDestroyed();
+                enableAllFields();
+                int ruchP = Integer.parseInt(ruchPrzeciwnika.substring(8));
+                planszaPrzeciwnika[ruchP].setDestroyed();
+                mojRuch = true;
+
             } else if (ruchPrzeciwnika.contains("PUDLO")) {
-                int ruchPrzeciwnikaX = Integer.parseInt(ruchPrzeciwnika.substring(5, 6));
-                int ruchPrzeciwnikaY = Integer.parseInt(ruchPrzeciwnika.substring(6));
-                ruchPrzeciwnikaX--;
-                ruchPrzeciwnikaY--;
-                planszaPrzeciwnika[ruchPrzeciwnikaX + ruchPrzeciwnikaY * 12].setMissed();
+                int ruchP = Integer.parseInt(ruchPrzeciwnika.substring(5));
+
+                planszaPrzeciwnika[ruchP].setMissed();
+                mojRuch = false;
+
             } else if (ruchPrzeciwnika.contains("WYGRALES")) {
                 disableAllFields();
                 for (shipPart p : planszaGracza) {
@@ -687,6 +720,24 @@ public class battleField extends javax.swing.JPanel implements MouseListener, Ru
                 showMessageDialog(null, "PRZEGRALEŚ!");
 
                 // PRZEJSCIE DO WYBORU STATKOW ALBO WYJSCIE Z GRY
+            }
+            if (obiektSieciowy.czySerwer && ruchPrzeciwnika.contains("GOTOWY")) {
+                mojRuch = true;
+                enableAllFields();
+                jLabel31.setText("TWÓJ RUCH");
+
+                if (!obiektSieciowy.czySerwer && !graTrwa) {
+                    obj.Send("GOTOWY");
+                    jLabel31.setText("RUCH PRZECIWNIKA");
+                }
+            }
+            if (mojRuch) {
+                enableAllFields();
+                jLabel31.setText("TWÓJ RUCH");
+            } else {
+                disableAllFields();
+                jLabel31.setText("RUCH PRZECIWNIKA");
+
             }
         }
     }

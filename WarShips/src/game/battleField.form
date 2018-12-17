@@ -906,13 +906,16 @@
           <Font name="MingLiU-ExtB" size="14" style="1"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="Tw&#xf3;j ruch / ruch przeciwnika to by si&#x119; zmienialo w zaleznosci czy nasluchuje czy moze strzelac, ewentualnie mozna to wypierdolic"/>
+        <Property name="text" type="java.lang.String" value="..."/>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
             <LineBorder/>
           </Border>
         </Property>
       </Properties>
+      <AccessibilityProperties>
+        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="."/>
+      </AccessibilityProperties>
     </Component>
   </SubComponents>
 </Form>

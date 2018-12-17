@@ -142,6 +142,11 @@ public class setShipsOnField extends javax.swing.JPanel implements MouseInputLis
                 jButton1MouseClicked(evt);
             }
         });
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Cofnij");
         jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -291,7 +296,10 @@ public class setShipsOnField extends javax.swing.JPanel implements MouseInputLis
     }//GEN-LAST:event_jButton2MouseClicked
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        if (shipCounter == 10){ // Tutaj trzeba dodac zeby sprawdzalo czy przeciwnik gotowy
+        if (shipCounter == 10){
+            for(shipPart p : poleBitwy){
+                p.removeMouseListener(this);
+            }
         JFrame window = (JFrame) evt.getComponent().getParent().getParent().getParent().getParent().getParent();
         window.setContentPane(new battleField(poleBitwy, socket));
         window.invalidate();
@@ -300,6 +308,10 @@ public class setShipsOnField extends javax.swing.JPanel implements MouseInputLis
             JOptionPane.showMessageDialog(null,"Alert", "Nie dodano wszystkich statków",JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_jButton1MouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
