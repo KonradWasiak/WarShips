@@ -39,7 +39,7 @@ public class MainMenu extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(1100, 600));
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel1.setFont(new java.awt.Font("Nirmala UI Semilight", 2, 48)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Nirmala UI Semilight", 0, 48)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("WarShips - Ships battle via LAN");
         jLabel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(60, 41, 41), 1, true));

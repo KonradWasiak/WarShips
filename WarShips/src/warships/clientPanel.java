@@ -39,18 +39,18 @@ public class clientPanel extends javax.swing.JPanel {
         setMinimumSize(new java.awt.Dimension(1100, 600));
         setPreferredSize(new java.awt.Dimension(1100, 600));
 
-        jLabel1.setFont(new java.awt.Font("MingLiU_HKSCS-ExtB", 2, 48)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Nirmala UI", 0, 48)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Wprowadzanie IP oraz portu");
 
-        jTextField1.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        jTextField1.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField1.setText("127.0.0.1");
         jTextField1.setMaximumSize(new java.awt.Dimension(300, 80));
         jTextField1.setMinimumSize(new java.awt.Dimension(300, 80));
         jTextField1.setPreferredSize(new java.awt.Dimension(300, 80));
 
-        jTextField2.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        jTextField2.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField2.setText("1234");
 

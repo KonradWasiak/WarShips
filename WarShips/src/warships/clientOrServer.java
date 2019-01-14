@@ -36,12 +36,11 @@ public class clientOrServer extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(1100, 600));
 
         jLabel1.setBackground(new java.awt.Color(122, 122, 122));
-        jLabel1.setFont(new java.awt.Font("MingLiU_HKSCS-ExtB", 2, 48)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Nirmala UI", 0, 48)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Wybierz Tryb Dzialania ");
         jLabel1.setBorder(new javax.swing.border.MatteBorder(null));
 
-        jButton1.setFont(new java.awt.Font("MingLiU_HKSCS-ExtB", 2, 24)); // NOI18N
         jButton1.setText("Klient");
         jButton1.setMaximumSize(new java.awt.Dimension(300, 80));
         jButton1.setMinimumSize(new java.awt.Dimension(300, 80));
@@ -52,7 +51,6 @@ public class clientOrServer extends javax.swing.JPanel {
             }
         });
 
-        jButton2.setFont(new java.awt.Font("MingLiU_HKSCS-ExtB", 0, 24)); // NOI18N
         jButton2.setText("Serwer");
         jButton2.setMaximumSize(new java.awt.Dimension(300, 80));
         jButton2.setMinimumSize(new java.awt.Dimension(300, 80));

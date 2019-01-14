@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import javax.swing.JFrame;
 import warships.MainMenu;
 import warships.clientPanel;
@@ -18,6 +19,10 @@ import warships.serverPanel;
 import warships.clientOrServer;
 import java.net.Socket;
 import java.net.ServerSocket;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showMessageDialog;
 import warships.Start;
 
@@ -33,13 +38,13 @@ public class battleField extends javax.swing.JPanel implements MouseListener, Ru
     boolean mojRuch;
     boolean przeciwnikGotowy = false;
     boolean graTrwa = false;
-
+    int wyborPoZakonczeniuGry = -1;
     Thread t1;
     Thread t2;
     String ruchPrzeciwnika = "";
     obiektSieciowy obj;
 
-    public battleField(shipPart[] pB, obiektSieciowy obiektSieciowyParam) {
+    public battleField(shipPart[] pB, obiektSieciowy obiektSieciowyParam) throws UnsupportedEncodingException {
         this.obj = obiektSieciowyParam;
 
         if (obiektSieciowy.czySerwer) {
@@ -122,7 +127,7 @@ public class battleField extends javax.swing.JPanel implements MouseListener, Ru
         if (!mojRuch) {
             disableAllFields();
         }
-        jLabel31.setText("CZEKAJ AŻ PRZECIWNIK DOŁĄCZY");
+        jLabel31.setText(new String("CZEKAJ AŻ PRZECIWNIK DOŁĄCZY".getBytes("UTF-8")));
 
     }
 
@@ -421,7 +426,7 @@ public class battleField extends javax.swing.JPanel implements MouseListener, Ru
         jLabel30.setMinimumSize(new java.awt.Dimension(50, 50));
         jLabel30.setPreferredSize(new java.awt.Dimension(50, 50));
 
-        jLabel31.setFont(new java.awt.Font("MingLiU-ExtB", 1, 14)); // NOI18N
+        jLabel31.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel31.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel31.setText("...");
         jLabel31.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -673,71 +678,97 @@ public class battleField extends javax.swing.JPanel implements MouseListener, Ru
     @Override
     public void run() {
         while (true) {
-            ruchPrzeciwnika = obj.Receive();
-            System.out.println(ruchPrzeciwnika);
-            if ((!ruchPrzeciwnika.equals("")) && (!ruchPrzeciwnika.contains("TRAFIONY")) && (!ruchPrzeciwnika.contains("PUDLO")
-                    && !ruchPrzeciwnika.contains("GOTOWY")) && (!ruchPrzeciwnika.contains("WYGRALES"))) {
-                graTrwa = true;
-                int ruchP = Integer.parseInt(ruchPrzeciwnika);
-
-                if (planszaGracza[ruchP].selected) {
-                    planszaGracza[ruchP].setDestroyed();
-                    planszaGracza[ruchP].setText("X");
-                    czesciStatkuLicznik--;
-                    obj.Send("TRAFIONY" + ruchP);
-                    mojRuch = false;
-                } else {
-                    planszaGracza[ruchP].setMissed();
-                    obj.Send("PUDLO" + ruchP);
-                    jLabel31.setText("TWÓJ RUCH");
-                    mojRuch = true;
-                }
-            } else if (ruchPrzeciwnika.contains("TRAFIONY")) {
-                enableAllFields();
-                int ruchP = Integer.parseInt(ruchPrzeciwnika.substring(8));
-                planszaPrzeciwnika[ruchP].setDestroyed();
-                mojRuch = true;
-
-            } else if (ruchPrzeciwnika.contains("PUDLO")) {
-                int ruchP = Integer.parseInt(ruchPrzeciwnika.substring(5));
-
-                planszaPrzeciwnika[ruchP].setMissed();
-                mojRuch = false;
-
-            } else if (ruchPrzeciwnika.contains("WYGRALES")) {
-                disableAllFields();
-                for (shipPart p : planszaGracza) {
-                    p.disableField();
-                }
-                showMessageDialog(null, "WYGRAŁEŚ!");
-            }
-            if (czesciStatkuLicznik == 0) {
-                obj.Send("WYGRALES");
-                disableAllFields();
-                for (shipPart p : planszaGracza) {
-                    p.disableField();
-                }
-                showMessageDialog(null, "PRZEGRALEŚ!");
-
-                // PRZEJSCIE DO WYBORU STATKOW ALBO WYJSCIE Z GRY
-            }
-            if (obiektSieciowy.czySerwer && ruchPrzeciwnika.contains("GOTOWY")) {
-                mojRuch = true;
-                enableAllFields();
-                jLabel31.setText("TWÓJ RUCH");
-
-                if (!obiektSieciowy.czySerwer && !graTrwa) {
-                    obj.Send("GOTOWY");
-                    jLabel31.setText("RUCH PRZECIWNIKA");
-                }
-            }
-            if (mojRuch) {
-                enableAllFields();
-                jLabel31.setText("TWÓJ RUCH");
+            if (wyborPoZakonczeniuGry == 0) {
+                System.exit(0);
             } else {
-                disableAllFields();
-                jLabel31.setText("RUCH PRZECIWNIKA");
+                ruchPrzeciwnika = obj.Receive();
+                System.out.println(ruchPrzeciwnika);
+                if ((!ruchPrzeciwnika.equals("")) && (!ruchPrzeciwnika.contains("TRAFIONY")) && (!ruchPrzeciwnika.contains("PUDLO")
+                        && !ruchPrzeciwnika.contains("GOTOWY")) && (!ruchPrzeciwnika.contains("WYGRALES"))) {
+                    graTrwa = true;
+                    int ruchP = Integer.parseInt(ruchPrzeciwnika);
 
+                    if (planszaGracza[ruchP].selected) {
+                        planszaGracza[ruchP].setDestroyed();
+                        planszaGracza[ruchP].setText("X");
+                        czesciStatkuLicznik--;
+                        obj.Send("TRAFIONY" + ruchP);
+                        mojRuch = false;
+                    } else {
+                        planszaGracza[ruchP].setMissed();
+                        obj.Send("PUDLO" + ruchP);
+                        try {
+                            jLabel31.setText(new String("TWÓJ RUCH".getBytes("UTF-8")));
+                        } catch (UnsupportedEncodingException ex) {
+                            Logger.getLogger(battleField.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        mojRuch = true;
+                    }
+                } else if (ruchPrzeciwnika.contains("TRAFIONY")) {
+                    enableAllFields();
+                    int ruchP = Integer.parseInt(ruchPrzeciwnika.substring(8));
+                    planszaPrzeciwnika[ruchP].setDestroyed();
+                    mojRuch = true;
+
+                } else if (ruchPrzeciwnika.contains("PUDLO")) {
+                    int ruchP = Integer.parseInt(ruchPrzeciwnika.substring(5));
+
+                    planszaPrzeciwnika[ruchP].setMissed();
+                    mojRuch = false;
+
+                } else if (ruchPrzeciwnika.contains("WYGRALES")) {
+                    disableAllFields();
+                    for (shipPart p : planszaGracza) {
+                        p.disableField();
+                    }
+                    try {
+                        wyborPoZakonczeniuGry = JOptionPane.showConfirmDialog(null,
+                                new String("Wygrałeś! Kliknij OK, by wyjść z gry".getBytes("UTF-8")),
+                                "KONIEC GRY!", JOptionPane.DEFAULT_OPTION);
+                    } catch (UnsupportedEncodingException ex) {
+                        Logger.getLogger(battleField.class.getName()).log(Level.SEVERE, null, ex);
+
+                    }
+                }
+                if (czesciStatkuLicznik == 0) {
+                    obj.Send("WYGRALES");
+                    try {
+                        TimeUnit.MILLISECONDS.sleep(500);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(battleField.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    disableAllFields();
+                    for (shipPart p : planszaGracza) {
+                        p.disableField();
+                    }
+                    try {
+                        wyborPoZakonczeniuGry = JOptionPane.showConfirmDialog(null,
+                                new String("Przegrałeś! Kliknij OK, by wyjść z gry".getBytes("UTF-8")),
+                                "KONIEC GRY!", JOptionPane.DEFAULT_OPTION);
+                    } catch (UnsupportedEncodingException ex) {
+                        Logger.getLogger(battleField.class.getName()).log(Level.SEVERE, null, ex);
+
+                    }
+                }
+                if (obiektSieciowy.czySerwer && ruchPrzeciwnika.contains("GOTOWY")) {
+                    mojRuch = true;
+                    enableAllFields();
+                    jLabel31.setText("TWÓJ RUCH");
+
+                    if (!obiektSieciowy.czySerwer && !graTrwa) {
+                        obj.Send("GOTOWY");
+                        jLabel31.setText("RUCH PRZECIWNIKA");
+                    }
+                }
+                if (mojRuch) {
+                    enableAllFields();
+                    jLabel31.setText("TWÓJ RUCH");
+                } else {
+                    disableAllFields();
+                    jLabel31.setText("RUCH PRZECIWNIKA");
+
+                }
             }
         }
     }
