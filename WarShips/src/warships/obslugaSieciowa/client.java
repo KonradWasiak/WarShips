@@ -57,7 +57,7 @@ public class client extends obiektSieciowy {
         } catch (IOException ex) {
             Logger.getLogger(client.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return "DUPA";
+        return null;
     }
 
     @Override

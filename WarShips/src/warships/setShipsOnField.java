@@ -12,9 +12,12 @@ import java.awt.Color;
 import static java.awt.SystemColor.window;
 import java.awt.event.MouseEvent;
 import java.io.Console;
+import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
 import warships.obslugaSieciowa.obiektSieciowy;
@@ -301,7 +304,11 @@ public class setShipsOnField extends javax.swing.JPanel implements MouseInputLis
                 p.removeMouseListener(this);
             }
         JFrame window = (JFrame) evt.getComponent().getParent().getParent().getParent().getParent().getParent();
-        window.setContentPane(new battleField(poleBitwy, socket));
+            try {
+                window.setContentPane(new battleField(poleBitwy, socket));
+            } catch (UnsupportedEncodingException ex) {
+                Logger.getLogger(setShipsOnField.class.getName()).log(Level.SEVERE, null, ex);
+            }
         window.invalidate();
         window.revalidate();
         } else {

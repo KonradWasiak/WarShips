@@ -59,9 +59,9 @@ public class battleField extends javax.swing.JPanel implements MouseListener, Ru
         t1.start();
         initComponents();
         planszaGracza = pB;
+        //Tu jest te oznaczanie pol numerami na planszy
         int xx = 0;
         for (shipPart p : pB) {
-            p.setText(Integer.toString(xx));
             xx++;
         }
         int y = 0;
@@ -75,7 +75,6 @@ public class battleField extends javax.swing.JPanel implements MouseListener, Ru
             planszaPrzeciwnika[i].setBounds(-50 + x * 50, -50 + y * 50, 50, 50);
             planszaPrzeciwnika[i].setEnabled(true);
             planszaPrzeciwnika[i].setVisible(true);
-            planszaPrzeciwnika[i].setText(Integer.toString(x + y * 12));
             planszaPrzeciwnika[i].addMouseListener(this);
             jPanel2.add(planszaPrzeciwnika[i]);
 
@@ -682,7 +681,8 @@ public class battleField extends javax.swing.JPanel implements MouseListener, Ru
                 System.exit(0);
             } else {
                 ruchPrzeciwnika = obj.Receive();
-                System.out.println(ruchPrzeciwnika);
+                for (int i=0;i<100;i++)
+                    System.out.println(ruchPrzeciwnika);
                 if ((!ruchPrzeciwnika.equals("")) && (!ruchPrzeciwnika.contains("TRAFIONY")) && (!ruchPrzeciwnika.contains("PUDLO")
                         && !ruchPrzeciwnika.contains("GOTOWY")) && (!ruchPrzeciwnika.contains("WYGRALES"))) {
                     graTrwa = true;
@@ -732,12 +732,6 @@ public class battleField extends javax.swing.JPanel implements MouseListener, Ru
                 }
                 if (czesciStatkuLicznik == 0) {
                     obj.Send("WYGRALES");
-                    try {
-                        TimeUnit.MILLISECONDS.sleep(500);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(battleField.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-
                     disableAllFields();
                     for (shipPart p : planszaGracza) {
                         p.disableField();
@@ -755,11 +749,10 @@ public class battleField extends javax.swing.JPanel implements MouseListener, Ru
                     mojRuch = true;
                     enableAllFields();
                     jLabel31.setText("TWÓJ RUCH");
-
-                    if (!obiektSieciowy.czySerwer && !graTrwa) {
-                        obj.Send("GOTOWY");
-                        jLabel31.setText("RUCH PRZECIWNIKA");
-                    }
+                }
+                if (!obiektSieciowy.czySerwer && !graTrwa) {
+                    obj.Send("GOTOWY");
+                    jLabel31.setText("RUCH PRZECIWNIKA");
                 }
                 if (mojRuch) {
                     enableAllFields();

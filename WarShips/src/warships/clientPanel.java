@@ -5,7 +5,6 @@
  */
 package warships;
 
-import com.sun.xml.internal.ws.api.message.Message;
 import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
