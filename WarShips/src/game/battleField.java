@@ -32,38 +32,59 @@ import warships.Start;
  */
 public class battleField extends javax.swing.JPanel implements MouseListener, Runnable {
 
+    // Deklaracja tablic przechowujących pola planszy gracza
     shipPart[] planszaGracza = new shipPart[144];
+
+    // Deklaracja tablic przechowujących pola planszy przeciwnika
     shipPart[] planszaPrzeciwnika = new shipPart[144];
+
+    //licznik części statku które są nadal w grze
     int czesciStatkuLicznik = 20;
+
+    //flaga oznaczająca czy aktualnie ruch wykonuje przeciwnik czy gracz
     boolean mojRuch;
-    boolean przeciwnikGotowy = false;
+
+    //flaga oznaczająca czy gra już się rozpoczęła
     boolean graTrwa = false;
+
+    //zmienna przechowująca indeks tablicy który ustalany jest po kliknięciu w przycisk po zakończeniu gry
     int wyborPoZakonczeniuGry = -1;
+
+    //Deklaracja wątku
     Thread t1;
-    Thread t2;
+
+    //Deklaracja pola przechowującego odebraną wiadomość od przeciwnika
     String ruchPrzeciwnika = "";
+
+    //Deklaracja obiektu 
     obiektSieciowy obj;
 
+    //Konstruktor klasy
     public battleField(shipPart[] pB, obiektSieciowy obiektSieciowyParam) throws UnsupportedEncodingException {
+
+        //Wstrzyknięcie obiektu klasy obiektSieciowy przez parametr konstruktora
         this.obj = obiektSieciowyParam;
 
+        //Jeżeli gracz jest serwerem to zaczyna grę
         if (obiektSieciowy.czySerwer) {
             mojRuch = true;
 
         } else {
             mojRuch = false;
+            //Jeżeli gracz jest klientem  to wysyła do serwera wiadomość o gotowości do gry
             obj.Send("GOTOWY");
 
         }
+
+        //Uruchomienie wątku
         t1 = new Thread(this);
         t1.start();
+
         initComponents();
-        planszaGracza = pB;
-        //Tu jest te oznaczanie pol numerami na planszy
-        int xx = 0;
-        for (shipPart p : pB) {
-            xx++;
-        }
+        //Wstrzyknięcie planszy gracza z wybranymi statkami przez parametr konstruktora
+        this.planszaGracza = pB;
+
+        //Umieszczenie pól gry na planszy przeciwnika
         int y = 0;
         for (int i = 0; i < planszaPrzeciwnika.length; i++) {
             int x = i - y * 12;
@@ -122,7 +143,7 @@ public class battleField extends javax.swing.JPanel implements MouseListener, Ru
         }
 
         disableAllFields();
-
+        //Zablokowanie wszystkich pól jeżeli ruch wykonuje przeciwnik
         if (!mojRuch) {
             disableAllFields();
         }
@@ -596,13 +617,18 @@ public class battleField extends javax.swing.JPanel implements MouseListener, Ru
     private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
 
+    //Podpięcie słuchacza zdarzenia kliknięcia myszki
     @Override
     public void mouseClicked(MouseEvent e) {
+        //Wyłączenie nasłuchiwania zdarzenia na strzelonym już polu
         shipPart temp = (shipPart) e.getComponent();
         temp.removeMouseListener(this);
+
+        //pobranie współrzędnych strzelonego pola
         int xToSend = temp.getXPolozenie();
         int yToSend = temp.getYPolozenie();
 
+        //Wysłanie na socket przeciwnika informacji o ruchu
         if (mojRuch) {
             obj.Send(Integer.toString(xToSend + yToSend * 12));
             if (!graTrwa) {
@@ -627,6 +653,7 @@ public class battleField extends javax.swing.JPanel implements MouseListener, Ru
     public void mouseReleased(MouseEvent e) {
     }
 
+    //Podpięcie słuchacza zdarzenia najechania myszą na pole
     @Override
     public void mouseEntered(MouseEvent e) {
         shipPart p = (shipPart) e.getComponent();
@@ -637,6 +664,7 @@ public class battleField extends javax.swing.JPanel implements MouseListener, Ru
         }
     }
 
+    //Podpięcie słuchacza zdarzenia wyjechania myszą z pola
     @Override
     public void mouseExited(MouseEvent e) {
         shipPart p = (shipPart) e.getComponent();
@@ -647,6 +675,7 @@ public class battleField extends javax.swing.JPanel implements MouseListener, Ru
         }
     }
 
+    //Metoda wyłączająca możliwość klikania we wszystkie pola
     public void disableAllFields() {
         for (shipPart p : planszaPrzeciwnika) {
             p.setEnabled(false);
@@ -658,6 +687,7 @@ public class battleField extends javax.swing.JPanel implements MouseListener, Ru
         }
     }
 
+    //Metoda włączająca możliwość klikania we wszystkie pola
     public void enableAllFields() {
         for (shipPart p : planszaPrzeciwnika) {
             p.setEnabled(true);
@@ -674,29 +704,42 @@ public class battleField extends javax.swing.JPanel implements MouseListener, Ru
         }
     }
 
+    //Kod wykonywany w osobnym wątku
     @Override
     public void run() {
         while (true) {
+            //Sprawdzenie, czy została wybrana opcja wyjścia  z gry po zakończeniu rozgrywki
             if (wyborPoZakonczeniuGry == 0) {
                 System.exit(0);
             } else {
+                //Odebranie wiadomości od przeciwnika
                 ruchPrzeciwnika = obj.Receive();
-                for (int i=0;i<100;i++)
-                    System.out.println(ruchPrzeciwnika);
+
+                //Kod wykonywany gdy przeciwnik wysłał współrzędne swojego strzału
                 if ((!ruchPrzeciwnika.equals("")) && (!ruchPrzeciwnika.contains("TRAFIONY")) && (!ruchPrzeciwnika.contains("PUDLO")
                         && !ruchPrzeciwnika.contains("GOTOWY")) && (!ruchPrzeciwnika.contains("WYGRALES"))) {
                     graTrwa = true;
                     int ruchP = Integer.parseInt(ruchPrzeciwnika);
 
+                    //Jeżeli współrzędne ruchu przeciwnika pokrywają się z współrzędnymi pola wykorzystanego przez część statku gracza
                     if (planszaGracza[ruchP].selected) {
+                        //Oznaczenie pola jako zniszczone
                         planszaGracza[ruchP].setDestroyed();
-                        planszaGracza[ruchP].setText("X");
+                        //Dekrementacja licznika części statku
                         czesciStatkuLicznik--;
+
+                        //Wysłanie przeciwnikowi informacji o tym, że jego strzał był celny
                         obj.Send("TRAFIONY" + ruchP);
                         mojRuch = false;
-                    } else {
+                    } //Jeżeli współrzędne ruchu nie przeciwnika pokrywają się z współrzędnymi pola wykorzystanego przez część statku gracza
+                    else {
+                        //Oznaczenie pola jako pudło 
                         planszaGracza[ruchP].setMissed();
+
+                        //Wysłanie przeciwnikowi informacji o tym, że jego strzał był niecelny
                         obj.Send("PUDLO" + ruchP);
+
+                        //Ustawienie napisu na dole ekranu "TWÓJ RUCH"
                         try {
                             jLabel31.setText(new String("TWÓJ RUCH".getBytes("UTF-8")));
                         } catch (UnsupportedEncodingException ex) {
@@ -704,24 +747,35 @@ public class battleField extends javax.swing.JPanel implements MouseListener, Ru
                         }
                         mojRuch = true;
                     }
-                } else if (ruchPrzeciwnika.contains("TRAFIONY")) {
+
+                } //Gdy przeciwnik wyśle wiadomość o trafieniu.
+                else if (ruchPrzeciwnika.contains("TRAFIONY")) {
                     enableAllFields();
+
+                    //Wyciągnięcie współrzędnych z wiadomości zwrotnej
                     int ruchP = Integer.parseInt(ruchPrzeciwnika.substring(8));
+                    //ustawienie pola jako zniszczone
                     planszaPrzeciwnika[ruchP].setDestroyed();
                     mojRuch = true;
 
-                } else if (ruchPrzeciwnika.contains("PUDLO")) {
+                } //Gdy przeciwnik wyśle wiadomość o niecelnym strzale.
+                else if (ruchPrzeciwnika.contains("PUDLO")) {
+                    //Wyciągnięcie współrzędnych z wiadomości zwrotnej
                     int ruchP = Integer.parseInt(ruchPrzeciwnika.substring(5));
-
                     planszaPrzeciwnika[ruchP].setMissed();
                     mojRuch = false;
 
-                } else if (ruchPrzeciwnika.contains("WYGRALES")) {
+                } //Gdy przeciwnik wyśle wiadomość, że gracz wygrał.
+                else if (ruchPrzeciwnika.contains("WYGRALES")) {
+                    //Zablokowanie wszystkich pól planszy gracza
                     disableAllFields();
                     for (shipPart p : planszaGracza) {
                         p.disableField();
                     }
+
+                    //Wyświetlenie graczowi informacji o wygranej z możliwością kliknięcia w pzycisk "OK"
                     try {
+                        //Przypisanie do zmiennej indeksu tablicy wyboru
                         wyborPoZakonczeniuGry = JOptionPane.showConfirmDialog(null,
                                 new String("Wygrałeś! Kliknij OK, by wyjść z gry".getBytes("UTF-8")),
                                 "KONIEC GRY!", JOptionPane.DEFAULT_OPTION);
@@ -730,12 +784,18 @@ public class battleField extends javax.swing.JPanel implements MouseListener, Ru
 
                     }
                 }
+
+                //Jeżeli licznik statków gracza wyniesie 0
                 if (czesciStatkuLicznik == 0) {
+                    //Wysłanie wiadomości przeciwnikowi o jego wygranej
                     obj.Send("WYGRALES");
+
+                    //Zablokowanie wszystkich pól gracza
                     disableAllFields();
                     for (shipPart p : planszaGracza) {
                         p.disableField();
                     }
+                    //Wyświetlenie graczowi informacji o wygranej z możliwością kliknięcia w pzycisk "OK"
                     try {
                         wyborPoZakonczeniuGry = JOptionPane.showConfirmDialog(null,
                                 new String("Przegrałeś! Kliknij OK, by wyjść z gry".getBytes("UTF-8")),
@@ -745,12 +805,16 @@ public class battleField extends javax.swing.JPanel implements MouseListener, Ru
 
                     }
                 }
+
+                //Jeżeli tryb gracza jest serwerem oraz przeciwnik wysłał wiadomość o gotowości
                 if (obiektSieciowy.czySerwer && ruchPrzeciwnika.contains("GOTOWY")) {
                     mojRuch = true;
                     enableAllFields();
                     jLabel31.setText("TWÓJ RUCH");
                 }
+                //Jeżeli tryb gracza nie jest serwerem oraz faga trwania gry jest ustawiona na false
                 if (!obiektSieciowy.czySerwer && !graTrwa) {
+                    //Wysyłanie przeciwnikowi informacji o gotowości gracza do gry
                     obj.Send("GOTOWY");
                     jLabel31.setText("RUCH PRZECIWNIKA");
                 }

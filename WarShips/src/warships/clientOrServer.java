@@ -101,6 +101,7 @@ public class clientOrServer extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    //Obsługa kliknięcia pzycisku "Klient" - otworzenie okna panelu gracza w trybie klienta
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         JFrame window = (JFrame) evt.getComponent().getParent().getParent().getParent().getParent();
         window.setContentPane(new clientPanel());
@@ -109,6 +110,7 @@ public class clientOrServer extends javax.swing.JPanel {
         window.revalidate();
     }//GEN-LAST:event_jButton1MouseClicked
 
+    //Obsługa kliknięcia pzycisku "Serwer" - otworzenie okna panelu gracza w trybie serwera
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         JFrame window = (JFrame) evt.getComponent().getParent().getParent().getParent().getParent();
         window.setContentPane(new serverPanel());
@@ -116,7 +118,8 @@ public class clientOrServer extends javax.swing.JPanel {
         window.invalidate();
         window.revalidate();
     }//GEN-LAST:event_jButton2MouseClicked
-
+    
+    //Obsługa kliknięcia pzycisku "Cofnij" - otworzenie okna głównego 
     private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
         JFrame window = (JFrame) evt.getComponent().getParent().getParent().getParent().getParent();
         window.setContentPane(new MainMenu());

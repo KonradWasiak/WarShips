@@ -18,10 +18,6 @@ public abstract class obiektSieciowy {
 
     public abstract void Send(String s);
 
-//    public abstract void SendOwnBattlefield(shipPart[] battlefield);
-//
-//    public abstract shipPart[] ReceiveEnemyBattlefield();
-
     public abstract String Receive();
 
     public abstract void ready();

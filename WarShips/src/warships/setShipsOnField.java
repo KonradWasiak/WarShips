@@ -53,6 +53,8 @@ public class setShipsOnField extends javax.swing.JPanel implements MouseInputLis
         jComboBox1.removeAllItems();
         jComboBox1.addItem("Pionowo");
         jComboBox1.addItem("Poziomo");
+        
+        //Rozmieszczenie pól na planszy
         int y = 0;
         for (int i = 0; i < poleBitwy.length; i++) {
             int x = i - y * 12;
@@ -269,6 +271,8 @@ public class setShipsOnField extends javax.swing.JPanel implements MouseInputLis
         }
     }//GEN-LAST:event_jComboBox1ItemStateChanged
 
+    
+    //Cofanie ostatniego ruchu
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         System.out.println("Przed usunieciem: " + shipCounter);
         for (shipPart p : ostatni) {
@@ -298,6 +302,8 @@ public class setShipsOnField extends javax.swing.JPanel implements MouseInputLis
         shipCounter--;
     }//GEN-LAST:event_jButton2MouseClicked
 
+    
+    //Obsługa kliknięcia przycisku "gotowy"
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         if (shipCounter == 10){
             for(shipPart p : poleBitwy){
@@ -337,6 +343,8 @@ public class setShipsOnField extends javax.swing.JPanel implements MouseInputLis
     private javax.swing.JRadioButton jRadioButton4;
     // End of variables declaration//GEN-END:variables
 
+    
+    //Ustawienie statku na planszy
     @Override
     public void mouseClicked(MouseEvent e) {
         shipPart temp = (shipPart) e.getComponent();
@@ -625,6 +633,7 @@ public class setShipsOnField extends javax.swing.JPanel implements MouseInputLis
 
     }
 
+    //Metoda wyłączająca możliwość użycia sąsiednich pól wokół statku
     private void zablokujSasiedniePola(int x, int y) {
         poleBitwy[(x + (y - 1) * 12)].disableField();
         poleBitwy[(x - 1) + (y - 1) * 12].disableField();
@@ -636,6 +645,7 @@ public class setShipsOnField extends javax.swing.JPanel implements MouseInputLis
         poleBitwy[(x + 1) + (y + 1) * 12].disableField();
     }
 
+    //Metoda włączająca możliwość używania pola o danych współrzędnych
     public void odblokujPole(int x, int y) {
         poleBitwy[(x + (y - 1) * 12)].enableField();
         poleBitwy[(x - 1) + (y - 1) * 12].enableField();
@@ -658,6 +668,8 @@ public class setShipsOnField extends javax.swing.JPanel implements MouseInputLis
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    
+    //Podświetlanie przyszłego położenia statku na niebiesko po najechaniu myszą na dane pole
     @Override
     public void mouseEntered(MouseEvent e) {
         shipPart temp = (shipPart) e.getComponent();

@@ -94,11 +94,16 @@ public class serverPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    //Obsługa kliknięcia przycisku "Zatwierdź"
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         try {
+            //Pobranie numeru portu na którym serwer będzie działać
             int port = Integer.parseInt(jTextField1.getText().toString());
+
+            //inicjaizacja obiektu serwera
             s = new server(port);
 
+            //Otworzenie okna z wyborem statków na planszy
             JFrame window = (JFrame) evt.getComponent().getParent().getParent().getParent().getParent();
             window.setContentPane(new setShipsOnField(s));
             window.invalidate();
@@ -107,6 +112,7 @@ public class serverPanel extends javax.swing.JPanel {
             System.out.println(e.toString());
         }
     }//GEN-LAST:event_jButton1MouseClicked
+    //Obsługa kliknięcia przycisku "Cofnij"
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         JFrame window = (JFrame) evt.getComponent().getParent().getParent().getParent().getParent();

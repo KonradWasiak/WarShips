@@ -69,15 +69,5 @@ public class client extends obiektSieciowy {
     public Socket getSocket() {
         return socket;
     }
-//
-//    @Override
-//    public void SendOwnBattlefield(shipPart[] battlefield) {
-//        try {
-//            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-//            out.writeObject(battlefield);
-//        } catch (IOException ex) {
-//            Logger.getLogger(server.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    }
 
 }

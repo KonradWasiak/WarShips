@@ -20,6 +20,7 @@ public class clientPanel extends javax.swing.JPanel {
      * Creates new form serverPanel
      */
     public client c;
+
     public clientPanel() {
         initComponents();
     }
@@ -104,11 +105,19 @@ public class clientPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    //Obsługa kliknięcia przycisku "Zatwierdź"
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         try {
+            //pobranie ip z textBoxa
             String ip = jTextField1.getText();
+
+            //pobranie portu z textBoxa
             int port = Integer.parseInt(jTextField2.getText());
+
+            //inicjalizacja obiektu klienta 
             c = new client(ip, port);
+
+            //Jeżeli klient połączy się z serwerem to otwierane jest okno z panelem wyboru statków
             if (c.socket.isConnected()) {
                 JFrame window = (JFrame) evt.getComponent().getParent().getParent().getParent().getParent();
                 window.setContentPane(new setShipsOnField(c));
@@ -118,11 +127,13 @@ public class clientPanel extends javax.swing.JPanel {
                 JOptionPane.showConfirmDialog(evt.getComponent().getParent().getParent(), "Nie nawiazano polaczenia");
                 System.out.println();
             }
+            //jeśli połączenie nie zostało nawiązane to wyświetlone zostanie okno z informacją
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null,"Nie nawiazano polaczenia \n" +e.toString(), "Alert",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Nie nawiazano polaczenia \n" + e.toString(), "Alert", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_jButton1MouseClicked
 
+    //Obsługa kliknięcia przycisku "Cofnij"
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         JFrame window = (JFrame) evt.getComponent().getParent().getParent().getParent().getParent();
         window.setContentPane(new clientOrServer());
