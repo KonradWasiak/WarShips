@@ -4,14 +4,14 @@
 ----------
 
 
-##Description
+## Description
 Java implementation of classic ship battle.   Applications uses TCP/IP protocol for communication with another user. 
 
 
 ----------
 
 
-##Overview
+## Overview
 Launching game opens menu where we can make game with our opponent. Because of non-server connection user need to define to play as server or client. 
 
 ![Chart Display](https://github.com/matewol540/WarShips/blob/master/WarShips/connectingToopenent.gif?raw=true)
@@ -33,6 +33,6 @@ Game ends with shooting all ships. Proper window appears with information about 
 ![Chart Display](https://github.com/matewol540/WarShips/blob/master/WarShips/win.gif?raw=true)
 ----------
 
-##Authors
+## Authors
 [Konrad Wasiak](https://github.com/KonradWasiak)
 [Mateusz Wolski](https://github.com/matewol540)
